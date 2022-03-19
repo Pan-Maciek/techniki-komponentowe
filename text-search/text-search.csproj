@@ -10,7 +10,9 @@
 
     <ItemGroup>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-        <Using Include="Microsoft.AspNetCore.Mvc"/>
+        <Using Include="Microsoft.AspNetCore.Mvc" />
+        <Folder Include="Misc" />
+        <Folder Include="Logic" />
     </ItemGroup>
 
 </Project>
