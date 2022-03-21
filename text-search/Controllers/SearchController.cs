@@ -13,8 +13,9 @@ public class SearchController : ControllerBase {
     }
 
     [HttpGet]
-    public List<FileSearchResult> Get(string path, string query, string fileSearchPattern) {
-        _logger.LogInformation("{Path} {SearchPattern} \"{Query}\"", path, fileSearchPattern, query);
-        return _fileFinder.FindInDirectory(path, fileSearchPattern, query);
+    public List<FileSearchResult> Post(string phrase, string rootPath) {
+        _logger.LogInformation("Searching in {Path} for *.txt | *.md files containing '{Phrase}'", rootPath, phrase);
+
+        return _fileFinder.FindInDirectory(rootPath, phrase);
     }
 }

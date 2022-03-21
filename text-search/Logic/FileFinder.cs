@@ -2,12 +2,15 @@
 
 public class FileFinder : IFileFinder {
 
-    public List<FileSearchResult> FindInDirectory(string path, string fileSearchPattern, string query) => 
-        FindInDirectoryHelper(path, fileSearchPattern, query).ToList();
+    public List<FileSearchResult> FindInDirectory(string path, string query) => 
+        FindInDirectoryHelper(path, query).ToList();
 
-    private IEnumerable<FileSearchResult> FindInDirectoryHelper(string path, string fileSearchPattern, string query) {
-            var other = Directory.EnumerateDirectories(path).SelectMany(directory => FindInDirectoryHelper(directory, fileSearchPattern, query));
-            var current = Directory.EnumerateFiles(path, fileSearchPattern).Select(filePath => FindInFile(filePath, query)).WhereNotNull();
+    private IEnumerable<FileSearchResult> FindInDirectoryHelper(string path, string query) {
+            var other = Directory.EnumerateDirectories(path).SelectMany(directory => FindInDirectoryHelper(directory, query));
+            var current = Directory.EnumerateFiles(path, "*.md")
+               .Where(filePath => filePath.EndsWith(".txt") || filePath.EndsWith(".md"))
+               .Select(filePath => FindInFile(filePath, query))
+               .WhereNotNull();
 
             return current.Concat(other);
     }
