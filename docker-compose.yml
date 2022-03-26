@@ -1,4 +1,4 @@
-version: '1'
+version: '3.9'
 services:
   text-search:
     build:
@@ -7,6 +7,8 @@ services:
     ports:
       - "9001:80"
       - "9002:443"
+    volumes:
+      - app:/home/app
   backend:
     build:
       context: backend
@@ -19,3 +21,5 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+volumes:
+  app:
