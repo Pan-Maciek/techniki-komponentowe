@@ -13,7 +13,7 @@ public class SearchController : ControllerBase {
     }
 
     [HttpGet]
-    public List<FileSearchResult> Post(string phrase, string rootPath) {
+    public List<FileSearchResult> Get(string phrase, string rootPath) {
         _logger.LogInformation("Searching in {Path} for *.txt | *.md files containing '{Phrase}'", rootPath, phrase);
 
         return _fileFinder.FindInDirectory(rootPath, phrase);
