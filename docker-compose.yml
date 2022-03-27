@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+  text-search:
+    build:
+      context: text-search
+      dockerfile: Dockerfile
+    ports:
+      - "9001:80"
+      - "9002:443"
+    volumes:
+      - ./samples:/app/files:ro
+  backend:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
