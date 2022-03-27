@@ -7,7 +7,7 @@ public class FileFinder : IFileFinder {
 
     private IEnumerable<FileSearchResult> FindInDirectoryHelper(string path, string phrase) {
             var other = Directory.EnumerateDirectories(path).SelectMany(directory => FindInDirectoryHelper(directory, phrase));
-            var current = Directory.EnumerateFiles(path, "*.md")
+            var current = Directory.EnumerateFiles(path)
                .Where(filePath => filePath.EndsWith(".txt") || filePath.EndsWith(".md"))
                .Select(filePath => FindInFile(filePath, phrase))
                .WhereNotNull();
