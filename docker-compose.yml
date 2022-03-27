@@ -8,7 +8,7 @@ services:
       - "9001:80"
       - "9002:443"
     volumes:
-      - ./samples:/files:ro
+      - ./samples:/app/files:ro
   backend:
     build:
       context: backend
