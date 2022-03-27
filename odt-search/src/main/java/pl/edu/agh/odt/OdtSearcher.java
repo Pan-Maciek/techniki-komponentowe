@@ -9,7 +9,9 @@ public class OdtSearcher {
 
     public static void main(String[] args) throws Exception
     {
-        OdfTextDocument textdoc = OdfTextDocument.loadDocument("./odt-search/src/main/resources/bells.odt");
+        OdfTextDocument textdoc = OdfTextDocument.loadDocument(
+            OdtSearcher.class.getClassLoader().getResourceAsStream("bells.odt")
+        );
 
         TextNavigation search1;
 
