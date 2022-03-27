@@ -12,8 +12,8 @@ class MicroserviceCommunicationService {
 
     val restTemplate: RestTemplate = RestTemplateBuilder().build()
 
-    fun getResponse(phrase : String, rootPath : String): List<String?> {
-        val results = mutableListOf<String>()
+    fun getResponse(phrase : String, rootPath : String): List<Object?> {
+        val results = mutableListOf<Object>()
 
         servicesNames.forEach {
             results.add(restTemplate.getForObject("http://$it/search?phrase={phrase}&rootPath={path}", phrase, rootPath))
