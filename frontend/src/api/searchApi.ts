@@ -6,8 +6,8 @@ const axiosInstance = axios.create({
 });
 
 export const search = async (params: SearchParams) => {
-  const response = await axiosInstance.get<SearchResults>("/search", {
+  const response = await axiosInstance.get("/search", {
     params,
   });
-  return response.data;
+  return response.data[0] as SearchResults;
 };

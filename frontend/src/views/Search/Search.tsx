@@ -13,6 +13,7 @@ export type SearchState =
   | {
       status: "SUCCESS";
       results: SearchResults;
+      phrase: string;
     };
 
 export const Search = () => {
@@ -24,7 +25,7 @@ export const Search = () => {
     setSearchState({ status: "LOADING" });
     try {
       const results = await search(data);
-      setSearchState({ status: "SUCCESS", results });
+      setSearchState({ status: "SUCCESS", results, phrase: data.phrase });
     } catch (e) {
       setSearchState({ status: "ERROR" });
     }

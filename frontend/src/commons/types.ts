@@ -4,5 +4,10 @@ export type SearchParams = {
 };
 
 export type SearchResults = Array<{
-  path: string;
+  filePath: string;
+  results: Array<{
+    searchContext: string;
+    indices: Array<number>;
+    lineNumber: number;
+  }>;
 }>;
