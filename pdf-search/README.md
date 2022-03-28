@@ -11,4 +11,6 @@
 - (Python) https://pypi.org/project/pdftotext/ (Podobno OOTB działa lepiej niż PyPDF2, ale instalacja na Windowsie to męka - głównie dlatego bym odradzał, ale nie jest to coś, czego nie ma sensu rozważać)
 
 ##### Podsumowanie
-Najsensowniej ze znalezionych przeze mnie rozwiązań wydaje się działać Apache Tika do Javy (przykłady użycia w pdf-search-java)
+Najsensowniej ze znalezionych przeze mnie rozwiązań wydawał się działać Apache Tika do Javy (przykłady użycia w pdf-search-java)
+Po decyzji o sprawdzeniu funkcjonowania tej biblioteki w Scali okazało się, że ma ona pewne problemy, jednak Apache pdfbox,
+ na którego Tika była wrapperem sprawdził się bardzo dobrze i myślę, że można pójść w tym kierunku
