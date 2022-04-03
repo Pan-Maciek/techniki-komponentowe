@@ -9,6 +9,14 @@ services:
       - "9002:443"
     volumes:
       - ./samples:/app/files:ro
+  odt-search:
+    build:
+      context: odt-search
+      dockerfile: Dockerfile
+    ports:
+      - "9011:8182"
+    volumes:
+      - ./samples:/app/files:ro
   backend:
     build:
       context: backend
