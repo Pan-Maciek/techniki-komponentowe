@@ -3,7 +3,7 @@ services:
   text-search:
     build:
       context: text-search
-      dockerfile: Dockerfile8080
+      dockerfile: Dockerfile
     ports:
       - "9001:80"
       - "9002:443"
