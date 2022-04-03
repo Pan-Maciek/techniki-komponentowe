@@ -23,7 +23,7 @@ public class SearchController : ControllerBase {
         }
         catch (Exception e)
         {
-            _logger.LogInformation("Search in {Path} failed with: {Error}", rootPath, e.Message);
+            _logger.LogError("Search in {Path} failed with: {Error}", rootPath, e.Message);
             return Ok(new SearchResponse(e));
         }
     }
