@@ -8,15 +8,18 @@ import org.springframework.web.client.getForObject
 @Service
 class MicroserviceCommunicationService {
 
-    val servicesNames : List<String> = listOf("text-search:80")
+    val servicesNames : Map<String, String> = mapOf(
+            "text-search" to "80",
+            "odt-search" to "8182"
+    )
 
     val restTemplate: RestTemplate = RestTemplateBuilder().build()
 
-    fun getResponse(phrase : String, rootPath : String): List<Object?> {
-        val results = mutableListOf<Object>()
+    fun getResponse(phrase : String, rootPath : String): Map<String, Object?> {
+        val results = mutableMapOf<String, Object>()
 
         servicesNames.forEach {
-            results.add(restTemplate.getForObject("http://$it/search?phrase={phrase}&rootPath={path}", phrase, rootPath))
+            results.put(it.key, restTemplate.getForObject("http://${it.key}:${it.value}/search?phrase={phrase}&rootPath={path}", phrase, rootPath))
         }
 
         return results
