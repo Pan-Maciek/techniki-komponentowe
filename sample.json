@@ -1,0 +1,15 @@
+{
+  "text-microservice": {
+    "status": "ok",
+    "results": [
+      { "path": "/a/b", "context": {} },
+      { "path": "/c/d", "context": {} }
+    ],
+    "errors": []
+  },
+  "pdf-microservice": {
+    "status": "error",
+    "results": [],
+    "errors": ["error reading file"]
+  }
+}
