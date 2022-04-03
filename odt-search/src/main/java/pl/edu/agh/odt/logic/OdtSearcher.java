@@ -23,11 +23,11 @@ public class OdtSearcher {
 
         while (navigation.hasNext()) {
             TextSelection searchResult = (TextSelection) navigation.getCurrentItem();
-
             OdfElement odfElement = searchResult.getElement();
-            ParagraphSearchResult paragraphResult = results.getOrDefault(searchResult.getElement(), new ParagraphSearchResult(odfElement.getTextContent()));
+
+            ParagraphSearchResult paragraphResult = results.getOrDefault(odfElement, new ParagraphSearchResult(odfElement.getTextContent()));
             paragraphResult.getIndices().add(searchResult.getIndex());
-            results.put(searchResult.getElement(), paragraphResult);
+            results.put(odfElement, paragraphResult);
         }
 
         return new FileSearchResult(path, new ArrayList<>(results.values()));
