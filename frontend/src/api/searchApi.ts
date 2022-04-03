@@ -2,7 +2,7 @@ import axios from "axios";
 import { SearchParams, SearchResults } from "../commons/types";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8080/",
+  baseURL: process.env.REACT_APP_BACKEND_URL,
 });
 
 export const search = async (params: SearchParams) => {

@@ -73,7 +73,8 @@ export const SearchResultsList: React.VFC<SearchResultsProps> = ({ state }) => {
   }
 
   if (state.status === "ERROR") {
-    return <div>Error occurred</div>;
+    // @ts-ignore
+    return <div>Error occurred: {JSON.stringify(state.error.toJSON())}</div>;
   }
 
   return <Fragment />;
