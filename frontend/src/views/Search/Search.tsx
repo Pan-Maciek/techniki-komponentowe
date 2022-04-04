@@ -8,12 +8,16 @@ import { SearchResultsList } from "./SearchResultsList";
 
 export type SearchState =
   | {
-      status: "IDLE" | "LOADING" | "ERROR";
+      status: "IDLE" | "LOADING";
     }
   | {
       status: "SUCCESS";
       results: SearchResults;
       phrase: string;
+    }
+  | {
+      status: "ERROR";
+      error: unknown;
     };
 
 export const Search = () => {
@@ -26,8 +30,8 @@ export const Search = () => {
     try {
       const results = await search(data);
       setSearchState({ status: "SUCCESS", results, phrase: data.phrase });
-    } catch (e) {
-      setSearchState({ status: "ERROR" });
+    } catch (error) {
+      setSearchState({ status: "ERROR", error });
     }
   };
 

@@ -71,6 +71,7 @@ export const SearchForm: React.VFC<SearchFormProps> = ({ onSubmit }) => {
             <IconButton
               size="large"
               onClick={() => setFiltersExpanded(!filtersExpanded)}
+              aria-label={filtersExpanded ? "Hide filters" : "Show filters"}
             >
               <FilterListIcon fontSize="inherit" />
             </IconButton>
@@ -82,7 +83,7 @@ export const SearchForm: React.VFC<SearchFormProps> = ({ onSubmit }) => {
             justifyContent="center"
             alignItems="flex-start"
           >
-            <IconButton size="large" type="submit">
+            <IconButton size="large" type="submit" aria-label="Search">
               <SearchIcon fontSize="inherit" />
             </IconButton>
           </Grid>
