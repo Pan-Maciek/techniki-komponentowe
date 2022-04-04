@@ -1,4 +1,4 @@
-import java.io.File
+import java.io.{File, InputStream}
 
 import org.apache.commons.lang3.StringUtils
 import org.apache.pdfbox.pdmodel.PDDocument
@@ -6,17 +6,17 @@ import org.apache.pdfbox.text.PDFTextStripper
 
 object Main {
   def main(args: Array[String]): Unit = {
-    println(pdfContainsPhrase("D:/tmp/KeepTalkingAndNobodyExplodes-BombDefusalManual-v2-pl.pdf", "bomb"))
+    println(pdfContainsPhrase(getClass.getResourceAsStream("ktane-manual.pdf"), "bomb"))
   }
 
-  private def pdfContainsPhrase(path: String, phrase: String): Boolean = {
-    val text = retrieveTextFromFile(path)
+  private def pdfContainsPhrase(fileIS: InputStream, phrase: String): Boolean = {
+    val text = retrieveTextFromFile(fileIS)
 
     StringUtils.containsIgnoreCase(text, phrase)
   }
 
-  private def retrieveTextFromFile(path: String): String = {
-    val pdf = PDDocument.load(new File(path))
+  private def retrieveTextFromFile(fileIS: InputStream): String = {
+    val pdf = PDDocument.load(fileIS)
     val stripper = new PDFTextStripper
 
     stripper.getText(pdf)
