@@ -1,5 +1,6 @@
 {
-  "text-microservice": {
+  "text-search": {
+    "phrase": "word",
     "status": "ok",
     "results": [
       { "path": "/a/b", "context": {} },
@@ -7,7 +8,8 @@
     ],
     "errors": []
   },
-  "pdf-microservice": {
+  "pdf-search": {
+    "phrase": "word",
     "status": "error",
     "results": [],
     "errors": ["error reading file"]

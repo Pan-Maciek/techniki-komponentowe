@@ -19,31 +19,34 @@ public class SearchController : ControllerBase {
         try
         {
             var results =  _fileFinder.FindInDirectory(rootPath, phrase);
-            return Ok(new SearchResponse(results));
+            return Ok(new SearchResponse(phrase, results));
         }
         catch (Exception e)
         {
             _logger.LogError("Search in {Path} failed with: {Error}", rootPath, e.Message);
-            return Ok(new SearchResponse(e));
+            return Ok(new SearchResponse(phrase, e));
         }
     }
 }
 
 public class SearchResponse
 {
+    public string Phrase { get; }
     public string Status { get; }
     public List<FileSearchResult> Results { get; } 
     public List<string> Errors { get; }
 
-    public SearchResponse(List<FileSearchResult> results)
+    public SearchResponse(String phrase, List<FileSearchResult> results)
     {
+        Phrase = phrase;
         Status = "ok";
         Results = results;
         Errors = new List<string>();
     }
 
-    public SearchResponse(Exception exception)
+    public SearchResponse(String phrase, Exception exception)
     {
+        Phrase = phrase;
         Status = "error";
         Results = new List<FileSearchResult>();
         Errors = new List<string> {exception.Message};
