@@ -23,6 +23,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+    volumes:
+      - ./samples:/app/files:ro
   frontend:
     build:
       context: frontend
