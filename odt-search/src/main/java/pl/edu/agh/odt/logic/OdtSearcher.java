@@ -30,6 +30,7 @@ public class OdtSearcher {
             results.put(odfElement, paragraphResult);
         }
 
+        if(results.isEmpty()) return null;
         return new FileSearchResult(path, new ArrayList<>(results.values()));
     }
 }

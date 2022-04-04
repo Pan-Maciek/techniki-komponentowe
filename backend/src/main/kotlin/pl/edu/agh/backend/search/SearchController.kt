@@ -14,7 +14,7 @@ class SearchController @Autowired constructor(val communicationService : Microse
 
     @CrossOrigin
     @GetMapping("/search")
-    fun results(request : FrontendRequest) : List<Object?> {
+    fun results(request : FrontendRequest) : Map<String, Object?> {
         return communicationService.getResponse(request.phrase, request.rootPath)
 
     }
