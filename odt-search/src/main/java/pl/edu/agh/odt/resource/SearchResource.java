@@ -15,14 +15,17 @@ public class SearchResource extends ServerResource {
     @Get("/search")
     public RequestResult getResults() {
 
-        FileFinder finder = new FileFinder(getQueryValue("rootPath"), getQueryValue("phrase"));
+        String rootPath = getQueryValue("rootPath");
+        String phrase = getQueryValue("phrase");
+
+        FileFinder finder = new FileFinder(rootPath, phrase);
 
         try {
             List<FileSearchResult> results = finder.findInDirectory();
-            return new RequestResult("ok", results, finder.getExceptions());
+            return new RequestResult(phrase, "ok", results, finder.getExceptions());
         }
         catch (IOException e){
-            return new RequestResult("error", Collections.emptyList(), List.of(e.getMessage()));
+            return new RequestResult(phrase,"error", Collections.emptyList(), List.of(e.getMessage()));
         }
 
     }

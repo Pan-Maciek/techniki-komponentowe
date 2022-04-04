@@ -4,12 +4,14 @@ import java.util.List;
 
 public final class RequestResult {
 
+    private final String phrase;
     private final String status;
     private final List<FileSearchResult> results;
     private final List<String> errors;
 
 
-    public RequestResult(String status, List<FileSearchResult> results, List<String> errors) {
+    public RequestResult(String phrase, String status, List<FileSearchResult> results, List<String> errors) {
+        this.phrase = phrase;
         this.status = status;
         this.results = results;
         this.errors = errors;
@@ -34,5 +36,9 @@ public final class RequestResult {
                 ", results=" + results +
                 ", errors=" + errors +
                 '}';
+    }
+
+    public String getPhrase() {
+        return phrase;
     }
 }
