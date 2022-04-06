@@ -3,11 +3,30 @@ export type SearchParams = {
   rootPath: string;
 };
 
-export type SearchResults = Array<{
-  filePath: string;
+type ServiceResponse<Match> = {
+  status: "ok" | "error";
+  phrase: string;
   results: Array<{
-    searchContext: string;
-    indices: Array<number>;
-    lineNumber: number;
+    filePath: string;
+    matches: Array<Match>;
   }>;
-}>;
+  errors: Array<string>;
+};
+
+export type PlainTextMatch = {
+  indices: Array<number>;
+  searchContext: string;
+  lineNumber: number;
+};
+
+export type RichTextMatch = {
+  indices: Array<number>;
+  searchContext: string;
+};
+
+export type Match = PlainTextMatch | RichTextMatch;
+
+export type SearchResponse = {
+  "text-search": ServiceResponse<PlainTextMatch>;
+  "odt-search": ServiceResponse<RichTextMatch>;
+};

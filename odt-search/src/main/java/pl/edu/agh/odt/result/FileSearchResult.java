@@ -12,11 +12,11 @@ public final class FileSearchResult {
         this.paragraphSearchResults = paragraphSearchResults;
     }
 
-    public String getPath() {
+    public String getFilePath() {
         return path;
     }
 
-    public List<ParagraphSearchResult> getLineSearchResults() {
+    public List<ParagraphSearchResult> getMatches() {
         return paragraphSearchResults;
     }
 
