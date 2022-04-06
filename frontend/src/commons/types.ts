@@ -1,6 +1,9 @@
 export type SearchParams = {
   phrase: string;
   rootPath: string;
+  additionalInfo: {
+    enabledFormats: string[];
+  };
 };
 
 type ServiceResponse<Match> = {
@@ -30,3 +33,8 @@ export type SearchResponse = {
   "text-search": ServiceResponse<PlainTextMatch>;
   "odt-search": ServiceResponse<RichTextMatch>;
 };
+
+export const SERVICES: Array<keyof SearchResponse> = [
+  "text-search",
+  "odt-search",
+];

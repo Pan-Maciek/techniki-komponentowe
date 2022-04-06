@@ -13,7 +13,7 @@ type SearchResultsProps = {
   state: SearchState;
 };
 
-const typeIconMap = {
+const serviceIconMap: Record<keyof SearchResponse, JSX.Element> = {
   "text-search": <TextSnippetIcon />,
   "odt-search": <TextFormatIcon />,
 };
@@ -40,7 +40,7 @@ const SearchResult: React.VFC<{
       }}
     >
       <div className={styles.resultPath}>{filePath}</div>
-      {typeIconMap[service]}
+      {serviceIconMap[service]}
     </Box>
 
     {matches.map((match) => (
