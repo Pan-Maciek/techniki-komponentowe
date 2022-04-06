@@ -37,5 +37,14 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
+  test:
+    build:
+      context: ./odt-search/src/test/
+      dockerfile: Dockerfile
+    image: e2etest
+    links:
+      - odt-search
+    volumes:
+      - ./odt-search/src/test:/app:rw
 
 
