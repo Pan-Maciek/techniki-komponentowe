@@ -1,12 +1,15 @@
 FROM maven:3.6.0-jdk-11-slim AS build
-COPY src /home/app/src
-COPY pom.xml /home/app
-RUN mvn -f /home/app/pom.xml clean package
+WORKDIR /home/app
 
-#
-# Package stage
-#
+COPY pom.xml .
+RUN mvn package
+
+COPY src .
+RUN mvn package
+
 FROM openjdk:11-jre-slim
-COPY --from=build /home/app/target/odt-search-1.0-SNAPSHOT.jar /usr/local/lib/odt-search.jar
+WORKDIR /app
+COPY --from=build /home/app/target/*.jar /app/odt-search.jar
+
 EXPOSE 8182
-ENTRYPOINT ["java","-jar","/usr/local/lib/odt-search.jar"]
+ENTRYPOINT ["java", "-jar", "/app/odt-search.jar"]
