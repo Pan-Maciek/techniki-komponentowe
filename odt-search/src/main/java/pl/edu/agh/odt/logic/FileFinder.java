@@ -33,7 +33,9 @@ public class FileFinder {
                 exceptions.add(e.getMessage());
                 return null;
             }
-        }).collect(Collectors.toList());
+        })
+        .filter(Objects::nonNull)
+        .collect(Collectors.toList());
     }
 
     private Stream<String> getOdtPathStream() throws IOException {
