@@ -1,0 +1,23 @@
+#!/bin/sh
+
+if ! ./wait-for localhost:3000 -t 10; then
+  echo "frontend is not available"
+  exit 1
+fi
+
+if ! ./wait-for localhost:8080 -t 10; then
+  echo "backend is not available"
+  exit 1
+fi
+
+if ! ./wait-for localhost:9001 -t 10; then
+  echo "text-search is not available"
+  exit 1
+fi
+
+if ! ./wait-for localhost:9011 -t 10; then
+  echo "odt-search is not available"
+  exit 1
+fi
+
+echo "all services are available"

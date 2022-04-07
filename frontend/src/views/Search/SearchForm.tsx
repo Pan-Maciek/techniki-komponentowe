@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Collapse, Grid, IconButton, Paper, TextField } from "@mui/material";
+import {
+  Collapse,
+  Grid,
+  IconButton,
+  Paper,
+  TextField,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+} from "@mui/material";
 import cx from "classnames";
 import styles from "./Search.module.scss";
 import {
@@ -8,10 +17,15 @@ import {
   Search as SearchIcon,
 } from "@mui/icons-material";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { SearchParams } from "../../commons/types";
+import { SearchParams, SearchResponse, SERVICES } from "../../commons/types";
 
 type SearchFormProps = {
   onSubmit: SubmitHandler<SearchParams>;
+};
+
+const serviceLabelMap: Record<keyof SearchResponse, string> = {
+  "text-search": "Plain text",
+  "odt-search": "ODT",
 };
 
 export const SearchForm: React.VFC<SearchFormProps> = ({ onSubmit }) => {
@@ -99,7 +113,17 @@ export const SearchForm: React.VFC<SearchFormProps> = ({ onSubmit }) => {
         >
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              Advanced filters coming soon
+              <FormGroup>
+                {SERVICES.map((service, i) => (
+                  <FormControlLabel
+                    key={service}
+                    control={<Checkbox defaultChecked />}
+                    label={serviceLabelMap[service]}
+                    value={service}
+                    {...register(`additionalInfo.enabledFormats.${i}`)}
+                  />
+                ))}
+              </FormGroup>
             </Grid>
           </Grid>
         </Paper>

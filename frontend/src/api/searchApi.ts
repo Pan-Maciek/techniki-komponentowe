@@ -1,13 +1,16 @@
 import axios from "axios";
-import { SearchParams, SearchResults } from "../commons/types";
+import { SearchParams, SearchResponse } from "../commons/types";
+import qs from "qs";
 
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_URL,
 });
 
-export const search = async (params: SearchParams) => {
-  const response = await axiosInstance.get("/search", {
+export const search = async (params: SearchParams): Promise<SearchResponse> => {
+  const response = await axiosInstance.get<SearchResponse>("/search", {
     params,
+    paramsSerializer: (params) =>
+      qs.stringify(params, { allowDots: true, arrayFormat: "comma" }),
   });
-  return response.data[0] as SearchResults;
+  return response.data;
 };

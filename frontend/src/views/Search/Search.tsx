@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container } from "@mui/material";
 import { SubmitHandler } from "react-hook-form";
-import { SearchParams, SearchResults } from "../../commons/types";
+import { SearchParams, SearchResponse } from "../../commons/types";
 import { search } from "../../api/searchApi";
 import { SearchForm } from "./SearchForm";
 import { SearchResultsList } from "./SearchResultsList";
@@ -12,8 +12,7 @@ export type SearchState =
     }
   | {
       status: "SUCCESS";
-      results: SearchResults;
-      phrase: string;
+      results: SearchResponse;
     }
   | {
       status: "ERROR";
@@ -26,10 +25,15 @@ export const Search = () => {
   });
 
   const onSubmit: SubmitHandler<SearchParams> = async (data) => {
+    data.additionalInfo.enabledFormats =
+      data.additionalInfo.enabledFormats.filter((format) => !!format);
+
+    console.log(data);
+
     setSearchState({ status: "LOADING" });
     try {
       const results = await search(data);
-      setSearchState({ status: "SUCCESS", results, phrase: data.phrase });
+      setSearchState({ status: "SUCCESS", results });
     } catch (error) {
       setSearchState({ status: "ERROR", error });
     }
