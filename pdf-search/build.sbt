@@ -11,6 +11,7 @@ val akkaHttpVersion = "10.2.6"
 libraryDependencies ++= Seq(
   "org.apache.commons" % "commons-lang3" % "3.12.0",
   "org.apache.pdfbox" % "pdfbox" % "2.0.25",
+  "ch.qos.logback" % "logback-classic" % "1.2.3",
   "com.typesafe.akka"        %% "akka-actor"                % akkaVersion,
   "com.typesafe.akka"        %% "akka-persistence"          % akkaVersion,
   "com.typesafe.akka"        %% "akka-persistence-query"    % akkaVersion,
