@@ -1,0 +1,4 @@
+vosk
+SpeechRecognition
+json
+#pocketsphinx
