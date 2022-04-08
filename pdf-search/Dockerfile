@@ -1,4 +1,4 @@
-FROM mozilla/sbt AS build
+FROM mozilla/sbt:8u292_1.5.7 AS build
 WORKDIR /home/app
 COPY src /home/app/src
 COPY build.sbt /home/app
