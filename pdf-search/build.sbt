@@ -2,6 +2,8 @@ name := "pdf-search"
 
 version := "0.1"
 
+Compile/mainClass := Some("server.HttpServerApp")
+
 scalaVersion := "2.13.8"
 val akkaVersion     = "2.6.16"
 val akkaHttpVersion = "10.2.6"
