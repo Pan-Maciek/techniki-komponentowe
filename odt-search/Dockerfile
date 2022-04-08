@@ -4,12 +4,12 @@ WORKDIR /home/app
 COPY pom.xml .
 RUN mvn package
 
-COPY src .
+COPY . .
 RUN mvn package
 
 FROM openjdk:11-jre-slim
 WORKDIR /app
-COPY --from=build /home/app/target/*.jar /app/odt-search.jar
+COPY --from=build /home/app/target/odt-search*.jar /app/odt-search.jar
 
 EXPOSE 8182
 ENTRYPOINT ["java", "-jar", "/app/odt-search.jar"]
