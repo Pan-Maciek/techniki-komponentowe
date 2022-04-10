@@ -1,4 +1,2 @@
-vosk
 SpeechRecognition
-json
-#pocketsphinx
+pydub
