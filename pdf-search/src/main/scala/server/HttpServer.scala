@@ -5,6 +5,7 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
+import akka.http.scaladsl.server.directives.DebuggingDirectives
 import logic.FileSearcher
 import result.Result.{FileSearchResult, ParagraphSearchResult, RequestResult}
 import spray.json.{DefaultJsonProtocol, RootJsonFormat}
@@ -44,7 +45,7 @@ class HttpServer extends SprayJsonSupport with DefaultJsonProtocol {
   }
 
   def start(port: Int): Future[Terminated] = {
-    Http().newServerAt("localhost", port).bind(routes)
+    Http().newServerAt("0.0.0.0", port).bind(routes)
     Await.ready(system.whenTerminated, Duration.Inf)
   }
 }

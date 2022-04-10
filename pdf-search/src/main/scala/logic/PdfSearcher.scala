@@ -35,6 +35,8 @@ object PdfSearcher {
       .filter(nonNull)
       .toSeq
 
+    pdf.close()
+
     FileSearchResult(path, paragraphRes)
   }
 }
