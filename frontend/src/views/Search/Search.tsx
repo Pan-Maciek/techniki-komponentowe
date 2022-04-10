@@ -28,8 +28,6 @@ export const Search = () => {
     data.additionalInfo.enabledFormats =
       data.additionalInfo.enabledFormats.filter((format) => !!format);
 
-    console.log(data);
-
     setSearchState({ status: "LOADING" });
     try {
       const results = await search(data);
