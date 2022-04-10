@@ -8,7 +8,7 @@ services:
       - "9001:80"
       - "9002:443"
     volumes:
-      - ./samples:/app/files:ro
+      - "${SEARCH_DIRECTORY:-./samples}:/app/files:ro"
   odt-search:
     build:
       context: odt-search
@@ -16,7 +16,7 @@ services:
     ports:
       - "9011:8182"
     volumes:
-      - ./samples:/app/files:ro
+      - "${search_directory:-./samples}:/app/files:ro"
   pdf-search:
     build:
       context: pdf-search
@@ -24,7 +24,7 @@ services:
     ports:
       - "9021:8183"
     volumes:
-      - ./samples:/app/files:ro
+      - "${search_directory:-./samples}:/app/files:ro"
   backend:
     build:
       context: backend
@@ -32,7 +32,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./samples:/app/files:ro
+      - "${SEARCH_DIRECTORY:-./samples}:/app/files:ro"
   frontend:
     build:
       context: frontend
