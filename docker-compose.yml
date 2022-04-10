@@ -16,7 +16,15 @@ services:
     ports:
       - "9011:8182"
     volumes:
-      - "${SEARCH_DIRECTORY:-./samples}:/app/files:ro"
+      - "${search_directory:-./samples}:/app/files:ro"
+  pdf-search:
+    build:
+      context: pdf-search
+      dockerfile: Dockerfile
+    ports:
+      - "9021:8183"
+    volumes:
+      - "${search_directory:-./samples}:/app/files:ro"
   backend:
     build:
       context: backend

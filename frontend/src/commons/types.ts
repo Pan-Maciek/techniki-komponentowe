@@ -32,9 +32,11 @@ export type Match = PlainTextMatch | RichTextMatch;
 export type SearchResponse = {
   "text-search": ServiceResponse<PlainTextMatch>;
   "odt-search": ServiceResponse<RichTextMatch>;
+  "pdf-search": ServiceResponse<RichTextMatch>
 };
 
 export const SERVICES: Array<keyof SearchResponse> = [
   "text-search",
   "odt-search",
+  "pdf-search"
 ];

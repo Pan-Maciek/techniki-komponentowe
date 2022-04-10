@@ -6,11 +6,13 @@ import Highlighter from "react-highlight-words";
 import {
   TextFormat as TextFormatIcon,
   TextSnippet as TextSnippetIcon,
+  PictureAsPdf as PictureAsPdfIcon
 } from "@mui/icons-material";
 
 const serviceIconMap: Record<keyof SearchResponse, JSX.Element> = {
   "text-search": <TextSnippetIcon />,
   "odt-search": <TextFormatIcon />,
+  "pdf-search": <PictureAsPdfIcon/>
 };
 
 export const SearchResult: React.VFC<{
