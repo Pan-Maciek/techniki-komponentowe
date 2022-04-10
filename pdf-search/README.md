@@ -29,7 +29,7 @@ Example
     "phrase": "sekwencji",
     "results": [
       {
-        "paragraphSearchResults": [
+        "Matchess": [
           {
             "indices": [
               38

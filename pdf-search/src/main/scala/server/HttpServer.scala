@@ -7,7 +7,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.directives.DebuggingDirectives
 import logic.FileSearcher
-import result.Result.{FileSearchResult, ParagraphSearchResult, RequestResult}
+import result.Result.{FileSearchResult, Matches, RequestResult}
 import spray.json.{DefaultJsonProtocol, RootJsonFormat}
 
 import scala.concurrent.duration.Duration
@@ -17,7 +17,7 @@ import scala.language.postfixOps
 class HttpServer extends SprayJsonSupport with DefaultJsonProtocol {
 
   implicit val queryFormat: RootJsonFormat[Query] = jsonFormat2(Query)
-  implicit val paragraphResFormat: RootJsonFormat[ParagraphSearchResult] = jsonFormat2(ParagraphSearchResult)
+  implicit val paragraphResFormat: RootJsonFormat[Matches] = jsonFormat2(Matches)
   implicit val fileResFormat: RootJsonFormat[FileSearchResult] = jsonFormat2(FileSearchResult)
   implicit val resFormat: RootJsonFormat[RequestResult] = jsonFormat4(RequestResult)
 

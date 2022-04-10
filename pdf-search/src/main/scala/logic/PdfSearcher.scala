@@ -6,7 +6,7 @@ import java.util.Objects.nonNull
 import org.apache.commons.lang3.StringUtils
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.text.PDFTextStripper
-import result.Result.{FileSearchResult, ParagraphSearchResult}
+import result.Result.{FileSearchResult, Matches}
 
 object PdfSearcher {
   val stripper = new PDFTextStripper
@@ -16,7 +16,7 @@ object PdfSearcher {
 
     val pdfText = stripper.getText(pdf).toLowerCase
 
-    val paragraphRes: Seq[ParagraphSearchResult] = pdfText
+    val paragraphRes: Seq[Matches] = pdfText
       .split(stripper.getLineSeparator)
       .map(line => {
         var index = 0
@@ -28,7 +28,7 @@ object PdfSearcher {
           }
         }
         if (indices.nonEmpty)
-          ParagraphSearchResult(line, indices)
+          Matches(line, indices)
         else
           null
       })
@@ -37,6 +37,6 @@ object PdfSearcher {
 
     pdf.close()
 
-    FileSearchResult(path, paragraphRes)
+    if (!paragraphRes.isEmpty) FileSearchResult(path, paragraphRes) else null
   }
 }

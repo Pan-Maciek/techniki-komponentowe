@@ -26,6 +26,7 @@ type SearchFormProps = {
 const serviceLabelMap: Record<keyof SearchResponse, string> = {
   "text-search": "Plain text",
   "odt-search": "ODT",
+  "pdf-search": "PDF"
 };
 
 export const SearchForm: React.VFC<SearchFormProps> = ({ onSubmit }) => {
