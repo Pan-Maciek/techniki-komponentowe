@@ -28,10 +28,10 @@ class HttpServer extends SprayJsonSupport with DefaultJsonProtocol {
   def routes: Route = {
     path("search") {
       get {
-        parameters("phrase".as[String], "path".as[String]) {
-          (phrase, path) =>
+        parameters("phrase".as[String], "rootPath".as[String]) {
+          (phrase, rootPath) =>
             try {
-              val fileSearcher = new FileSearcher(path)
+              val fileSearcher = new FileSearcher(rootPath)
               val res = fileSearcher.findInDir(phrase)
               complete(200, RequestResult(phrase, "ok", res, fileSearcher.errors))
             } catch {
