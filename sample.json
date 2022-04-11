@@ -1,6 +1,6 @@
 {
   "text-search": {
-    "phrase": "word",
+    "phrases": ["word", "slowo"],
     "status": "ok",
     "results": [
       { "path": "/a/b", "context": {} },
@@ -9,7 +9,7 @@
     "errors": []
   },
   "pdf-search": {
-    "phrase": "word",
+    "phrases": ["word"],
     "status": "error",
     "results": [],
     "errors": ["error reading file"]
