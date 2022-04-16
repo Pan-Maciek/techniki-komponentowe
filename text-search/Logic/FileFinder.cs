@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.FileSystemGlobbing;
 
-namespace TextSearch.Logic; 
+namespace TextSearch.Logic;
 
 public class FileFinder : IFileFinder
 {
     private static readonly Matcher Matcher;
-    
+
     static FileFinder()
     {
         Matcher = new Matcher()
@@ -19,9 +19,10 @@ public class FileFinder : IFileFinder
             .WhereNotNull()
             .ToList();
 
-    public FileSearchResult? FindInFile(string path, string phrase) {
+    public FileSearchResult? FindInFile(string path, List<string> phrases) {
         var results = File.ReadLines(path)
-            .Select((line, index) => line.IndicesOf(phrase, StringComparison.Ordinal) switch {
+            .Select((line, index) =>
+                line.IndicesOfAny(phrases, StringComparison.Ordinal) switch {
                  null => null,
                  var indices => new LineSearchResult(line, indices, index + 1)
             })
