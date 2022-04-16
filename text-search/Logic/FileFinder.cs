@@ -2,22 +2,23 @@
 
 public class FileFinder : IFileFinder {
 
-    public List<FileSearchResult> FindInDirectory(string path, string phrase) => 
-        FindInDirectoryHelper(path, phrase).ToList();
+    public List<FileSearchResult> FindInDirectory(string path, List<string> phrases) => 
+        FindInDirectoryHelper(path, phrases).ToList();
 
-    private IEnumerable<FileSearchResult> FindInDirectoryHelper(string path, string phrase) {
-            var other = Directory.EnumerateDirectories(path).SelectMany(directory => FindInDirectoryHelper(directory, phrase));
+    private IEnumerable<FileSearchResult> FindInDirectoryHelper(string path, List<string> phrases) {
+            var other = Directory.EnumerateDirectories(path).SelectMany(directory => FindInDirectoryHelper(directory, phrases));
             var current = Directory.EnumerateFiles(path)
                .Where(filePath => filePath.EndsWith(".txt") || filePath.EndsWith(".md"))
-               .Select(filePath => FindInFile(filePath, phrase))
+               .Select(filePath => FindInFile(filePath, phrases))
                .WhereNotNull();
 
             return current.Concat(other);
     }
 
-    public FileSearchResult? FindInFile(string path, string phrase) {
+    public FileSearchResult? FindInFile(string path, List<string> phrases) {
         var results = File.ReadLines(path)
-            .Select((line, index) => line.IndicesOf(phrase, StringComparison.Ordinal) switch {
+            .Select((line, index) => 
+                line.IndicesOfAny(phrases, StringComparison.Ordinal) switch {
                  null => null,
                  var indices => new LineSearchResult(line, indices, index + 1)
             })
