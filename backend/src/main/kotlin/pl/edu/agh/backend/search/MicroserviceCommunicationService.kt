@@ -27,7 +27,7 @@ class MicroserviceCommunicationService(
         val phrases = translationService.translate(phrase, languages)
 
         return serviceMap.filterServices(enabledFormats).mapValues {
-            val url = UriComponentsBuilder.fromHttpUrl("http://localhost:${it.value}/search")
+            val url = UriComponentsBuilder.fromHttpUrl("http://${it.key}:${it.value}/search")
                 .queryParam("phrases", phrases)
                 .queryParam("rootPath", rootPath)
                 .encode()
