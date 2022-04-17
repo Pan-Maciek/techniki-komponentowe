@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.getForObject
+import org.springframework.web.util.UriComponentsBuilder
 import java.io.File
 
 @Service
@@ -26,9 +27,14 @@ class MicroserviceCommunicationService(
         val phrases = translationService.translate(phrase, languages)
 
         return serviceMap.filterServices(enabledFormats).mapValues {
-            val serviceUrl ="http://${it.key}:${it.value}/search?phrases={phrases}&rootPath={path}"
+            val url = UriComponentsBuilder.fromHttpUrl("http://localhost:${it.value}/search")
+                .queryParam("phrases", phrases)
+                .queryParam("rootPath", rootPath)
+                .encode()
+                .toUriString()
+
             logger.info("Sending request to ${it.key}", phrase, rootPath)
-            restTemplate.getForObject(serviceUrl, phrases, rootPath)
+            restTemplate.getForObject(url)
         }
     }
 
