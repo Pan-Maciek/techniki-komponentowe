@@ -14,13 +14,15 @@ class TranslationService(
 
     fun translate(phrase: String, languages: List<String>): List<String> {
         logger.info("Getting translations for $phrase in $languages")
-        val url = "http://localhost:3000/translate?phrase={phrase}&lang={languages}"
-        return restTemplate.getForObject(url, phrase, languages)
+        val url = "http://translation:3000/translate?phrase={phrase}&lang={languages}"
+        val phrases = restTemplate.getForObject<List<String>>(url, phrase, languages)
+        logger.info("Translation result for $phrase in $languages: $phrases")
+        return phrases
     }
 
     fun languages(): Map<String, String> {
         logger.info("Getting language list")
-        val url = "http://localhost:3000/languages"
+        val url = "http://translation:3000/languages"
         return restTemplate.getForObject(url)
     }
 }
