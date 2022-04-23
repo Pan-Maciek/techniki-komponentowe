@@ -1,4 +1,6 @@
-﻿namespace TextSearch.Controllers; 
+﻿using System.Web;
+
+namespace TextSearch.Controllers; 
 
 [ApiController]
 [Route("/search")]
@@ -15,13 +17,16 @@ public class SearchController : ControllerBase {
     
     [HttpGet]
     public IActionResult Get([FromQuery] SearchRequest request) {
-        var (phrases, rootPath) = request;
+        var rootPath = request.RootPath;
+        var phrases = request.Phrases.Select(HttpUtility.UrlDecode).WhereNotNull().ToList();
         
         _logger.LogInformation("Searching in {Path} for *.txt | *.md files containing '{Phrases}'", rootPath, phrases);
+        
+        var uniquePhrases = phrases.DistinctBy(phrase => phrase.ToLowerInvariant()).ToList();
 
         try
         {
-            var results =  _fileFinder.FindInDirectory(rootPath, phrases);
+            var results =  _fileFinder.FindInDirectory(rootPath, uniquePhrases);
             return Ok(new SearchResponse(phrases, results));
         }
         catch (Exception e)
@@ -42,4 +47,3 @@ public class SearchController : ControllerBase {
             : this(phrases, "error", new List<FileSearchResult>(), new List<string> {exception.Message}) { }
     }
 }
-
