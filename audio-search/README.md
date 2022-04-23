@@ -20,30 +20,27 @@ Example
 
 ### Example response (success)
 
-`curl --location --request GET 'http://localhost:9031/search?rootPath=app/files&phrase=the`
+`http://localhost:9031/search?rootPath=/app/files&phrases=who&phrases=kto&langs=en-US&langs=pl-PL`
 
 ```json
 {
-  "phrase": "the",
+  "phrases": [
+    "who",
+    "kto"
+  ],
+  "languages": [
+    "en-US",
+    "pl-PL"
+  ],
   "status": "ok",
   "results": [
     {
-      "file_path": "/app/files/harvard.wav",
+      "path": "app/files/harvard.wav",
       "matches": [
         {
           "search_context": "the mute muffled the hi-tones of the who warned the gold ring fits only appeared ear the old pan was covered with hard fudge what's the log float in the wide river the node on the stalk of wheat grew daily the Heap of fallen leaves was set on fire right fast if you want to finish early his shirt was clean but one button was gone the barrel of beer was a brew of malt and hops tin cans are absent from store shelves",
           "indices": [
-            0,
-            17,
-            33,
-            48,
-            85,
-            132,
-            149,
-            164,
-            176,
-            206,
-            331
+            37
           ]
         }
       ]
@@ -53,15 +50,23 @@ Example
 }
 ```
 
-### Example response (error) (unexpected to happen)
+### Example response (error)
+
+`http://localhost:9031/search?rootPath=/app/files&phrases=who&phrases=kto&langs=en-US`
 
 ```json
 {
-  "errors": [
-    "error msg"
+  "phrases": [
+    "who",
+    "kto"
   ],
-  "phrase": "the",
+  "languages": [
+    "en-US"
+  ],
+  "status": "error",
   "results": [],
-  "status": "error"
+  "errors": [
+    "Each phrase has to be associated with a language"
+  ]
 }
 ```

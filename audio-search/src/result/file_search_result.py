@@ -3,9 +3,9 @@ from typing import List
 
 
 class FileSearchResult:
-    file_path: str
+    path: str
     matches: List[Matches]
 
-    def __init__(self, file_path: str, matches: List[Matches]):
-        self.file_path = file_path
+    def __init__(self, path: str, matches: List[Matches]):
+        self.path = path
         self.matches = matches

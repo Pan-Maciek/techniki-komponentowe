@@ -2,6 +2,7 @@ from flask import Flask, request
 from src.logic import FileSearcher
 from src.result import RequestResult
 import json
+from typing import List
 
 
 app = Flask(__name__)
@@ -9,20 +10,23 @@ app = Flask(__name__)
 
 @app.route("/search", methods=["GET"])
 def search():
-    phrase: str = request.args.get("phrase")
+    phrases: List[str] = request.args.getlist("phrases")
+    languages: List[str] = request.args.getlist("languages")
     root_path: str = request.args.get("rootPath")
 
     try:
         file_searcher = FileSearcher(root_path)
         request_res = RequestResult(
-            phrase=phrase,
+            phrases=phrases,
+            languages=languages,
             status="ok",
-            results=file_searcher.find_phrase(phrase),
+            results=file_searcher.find_phrases(phrases, languages),
             errors=file_searcher.errors
         )
     except Exception as e:
         request_res = RequestResult(
-            phrase=phrase,
+            phrases=phrases,
+            languages=languages,
             status="error",
             results=[],
             errors=[str(e)]
