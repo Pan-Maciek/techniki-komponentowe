@@ -53,16 +53,14 @@ Example
 }
 ```
 
-### Example response (error)
-
-`curl --location --request GET 'http://localhost:9031/search?rootPath=app/dir&phrase=the`
+### Example response (error) (unexpected to happen)
 
 ```json
 {
   "errors": [
-    "/app/dir"
+    "error msg"
   ],
-  "phrase": "sekwencji",
+  "phrase": "the",
   "results": [],
   "status": "error"
 }
