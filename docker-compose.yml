@@ -25,6 +25,14 @@ services:
       - "9021:8183"
     volumes:
       - "${search_directory:-./samples}:/app/files:ro"
+  audio-search:
+    build:
+      context: audio-search
+      dockerfile: Dockerfile
+    ports:
+      - "9031:8184"
+    volumes:
+      - "${search_directory:-./samples}:/app/files:ro"
   backend:
     build:
       context: backend

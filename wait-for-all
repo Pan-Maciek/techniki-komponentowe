@@ -21,7 +21,12 @@ if ! ./wait-for localhost:9011 -t 10; then
 fi
 
 if ! ./wait-for localhost:9021 -t 10; then
-  echo "pdt-search is not available"
+  echo "pdf-search is not available"
+  exit 1
+fi
+
+if ! ./wait-for localhost:9031 -t 10; then
+  echo "audio-search is not available"
   exit 1
 fi
 
