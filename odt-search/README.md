@@ -10,17 +10,24 @@ as well as indices of occurrences in each paragraph.
 
 ### Request format
 
-`http://localhost:9011/search?rootPath={path}&phrase={phrase}`
+`http://localhost:9011/search?rootPath={path}&phrase={phrase1,phrase2}&lang={lang1,lang2}`
 
 Example
 
-`http://localhost:9011/search?rootPath=/app/files&phrase=brief`
+`http://localhost:9011/search?rootPath=/app/files&phrases=brief,hearts&lang=eng,pl`
 
 ### Example response (success)
 
 ```json
 {
-  "phrase": "brief",
+  "phrases": [
+    "brief",
+    "hearts"
+  ],
+  "lang": [
+    "eng",
+    "pl"
+  ],
   "status": "ok",
   "results": [
     {
@@ -30,6 +37,12 @@ Example
           "searchContext": "Brief were the moments of bliss and gladness",
           "indices": [
             0
+          ]
+        },
+        {
+          "searchContext": "Here the nightly frost will creep inside the hearts",
+          "indices": [
+            45
           ]
         }
       ]
@@ -41,6 +54,12 @@ Example
           "searchContext": "Brief were the moments of bliss and gladness",
           "indices": [
             0
+          ]
+        },
+        {
+          "searchContext": "Here the nightly frost will creep inside the hearts",
+          "indices": [
+            45
           ]
         }
       ]
