@@ -11,6 +11,6 @@ class SearchController(@Autowired val communicationService : MicroserviceCommuni
     @CrossOrigin
     @GetMapping("/search")
     fun results(request : FrontendRequest) : Map<String, Any> =
-        communicationService.getResponse(request.phrase, request.rootPath, request.additionalInfo.enabledFormats, listOf())
+        communicationService.getResponse(request.phrase, request.rootPath, request.additionalInfo.enabledFormats, request.additionalInfo.lang)
 
 }
