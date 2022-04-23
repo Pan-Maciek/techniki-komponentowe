@@ -10,18 +10,18 @@ and value contains information about the error.
 
 ### Request format
 
-`http://localhost:8080/search?rootPath={path}&phrase={phrase}&additionalInfo.enabledFormats={service1, service2}`
+`http://localhost:8080/search?rootPath={path}&phrase={phrase}&additionalInfo.enabledFormats={service1, service2}&additionalInfo.lang={lang1, lang2}`
 
 Example
 
-`http://localhost:8080/search?rootPath=/app/files&phrase=bells&additionalInfo.enabledFormats=text-search`
+`http://localhost:8080/search?rootPath=/app/files&phrase=bells&additionalInfo.enabledFormats=text-search&additionalInfo.lang=en`
 
 ### Example response (if rootPath exists)
 
 ```json
 {
     "text-search": {
-        "phrase": "bells",
+        "phrases": ["dzwonki", "bells"],
         "status": "ok",
         "results": [
             {
