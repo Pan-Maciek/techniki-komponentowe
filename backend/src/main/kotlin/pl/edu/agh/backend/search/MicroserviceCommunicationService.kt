@@ -28,6 +28,7 @@ class MicroserviceCommunicationService(
 
         return serviceMap.filterServices(enabledFormats).mapValues {
             val url = UriComponentsBuilder.fromHttpUrl("http://${it.key}:${it.value}/search")
+                .queryParam("lang", listOf("pl") + languages)
                 .queryParam("phrases", phrases)
                 .queryParam("rootPath", rootPath)
                 .encode()
