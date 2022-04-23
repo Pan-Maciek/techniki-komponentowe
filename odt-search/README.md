@@ -73,7 +73,14 @@ Example
 
 ```json
 {
-  "phrase": "anything",
+  "phrases": [
+    "brief",
+    "hearts"
+  ],
+  "lang": [
+    "eng",
+    "pl"
+  ],
   "status": "error",
   "results": [],
   "errors": [
