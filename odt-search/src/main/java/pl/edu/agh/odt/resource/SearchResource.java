@@ -7,9 +7,12 @@ import pl.edu.agh.odt.result.FileSearchResult;
 import pl.edu.agh.odt.result.RequestResult;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SearchResource extends ServerResource {
 
@@ -33,7 +36,9 @@ public class SearchResource extends ServerResource {
     }
 
     private List<String> getQueryValues(String parameter){
-        return Arrays.asList(getQueryValue(parameter).split(","));
+        return Arrays.stream(getQueryValue(parameter).split(","))
+                .map(phrase -> URLDecoder.decode(phrase, StandardCharsets.UTF_8))
+                .collect(Collectors.toList());
     }
 
 
