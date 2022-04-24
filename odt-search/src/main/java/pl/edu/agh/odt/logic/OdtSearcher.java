@@ -9,15 +9,16 @@ import pl.edu.agh.odt.result.ParagraphSearchResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 public class OdtSearcher {
 
-    static FileSearchResult phraseOccurrences(String phrase, String path) throws Exception {
+    static FileSearchResult phraseOccurrences(List<String> phrases, String path) throws Exception {
 
         OdfTextDocument textdoc = OdfTextDocument.loadDocument(path);
-        TextNavigation navigation = new TextNavigation(Pattern.compile(phrase, Pattern.CASE_INSENSITIVE), textdoc);
+        TextNavigation navigation = new TextNavigation(Pattern.compile(String.join("|", phrases), Pattern.CASE_INSENSITIVE), textdoc);
 
         Map<OdfElement, ParagraphSearchResult> results = new HashMap<>();
 

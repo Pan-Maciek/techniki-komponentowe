@@ -7,6 +7,7 @@ import pl.edu.agh.odt.result.FileSearchResult;
 import pl.edu.agh.odt.result.RequestResult;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,18 +17,23 @@ public class SearchResource extends ServerResource {
     public RequestResult getResults() {
 
         String rootPath = getQueryValue("rootPath");
-        String phrase = getQueryValue("phrase");
+        List<String> phrases = getQueryValues("phrases");
+        List<String> lang = getQueryValues("lang");
 
-        FileFinder finder = new FileFinder(rootPath, phrase);
+        FileFinder finder = new FileFinder(rootPath, phrases);
 
         try {
             List<FileSearchResult> results = finder.findInDirectory();
-            return new RequestResult(phrase, "ok", results, finder.getExceptions());
+            return new RequestResult(phrases, lang, "ok", results, finder.getExceptions());
         }
         catch (IOException e){
-            return new RequestResult(phrase,"error", Collections.emptyList(), List.of(e.getMessage()));
+            return new RequestResult(phrases, lang,"error", Collections.emptyList(), List.of(e.getMessage()));
         }
 
+    }
+
+    private List<String> getQueryValues(String parameter){
+        return Arrays.asList(getQueryValue(parameter).split(","));
     }
 
 
