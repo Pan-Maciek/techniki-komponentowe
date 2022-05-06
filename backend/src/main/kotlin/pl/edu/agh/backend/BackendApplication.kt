@@ -6,6 +6,7 @@ import org.springframework.beans.factory.InjectionPoint
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Scope
 import org.springframework.web.reactive.function.client.WebClient
 
 
@@ -15,6 +16,7 @@ class BackendApplication {
 	fun webClient(builder: WebClient.Builder): WebClient = builder.build()
 
 	@Bean
+	@Scope("prototype")
 	fun logger(injectionPoint: InjectionPoint): Logger = LoggerFactory.getLogger( injectionPoint.methodParameter?.containingClass ?: injectionPoint.field?.declaringClass) }
 
 
