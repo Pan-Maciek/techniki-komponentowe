@@ -6,10 +6,8 @@ import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.getForObject
 import org.springframework.web.util.UriComponentsBuilder
-import org.springframework.web.util.UriUtils
+import pl.edu.agh.backend.encode
 import java.io.File
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 
 @Service
 class MicroserviceCommunicationService(
@@ -27,7 +25,7 @@ class MicroserviceCommunicationService(
             return mapOf("backend" to ErrorResponse(path = rootPath, errors = listOf("The given path does not exists.")) as Any)
         }
 
-        val phrases = translationService.translate(phrase.encode(), languages).joinToString(",") { it.encode() }
+        val phrases = translationService.translate(phrase, languages).joinToString(",")
 
         return serviceMap.filterServices(enabledFormats).mapValues {
             val url = UriComponentsBuilder
@@ -44,6 +42,4 @@ class MicroserviceCommunicationService(
     }
 
     fun fileExists(path: String) : Boolean = File(path).exists()
-
-    fun String.encode() = UriUtils.encode(this, StandardCharsets.UTF_8)
 }
