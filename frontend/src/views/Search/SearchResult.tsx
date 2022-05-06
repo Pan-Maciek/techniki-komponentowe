@@ -6,21 +6,21 @@ import Highlighter from "react-highlight-words";
 import {
   TextFormat as TextFormatIcon,
   TextSnippet as TextSnippetIcon,
-  PictureAsPdf as PictureAsPdfIcon
+  PictureAsPdf as PictureAsPdfIcon,
 } from "@mui/icons-material";
 
 const serviceIconMap: Record<keyof SearchResponse, JSX.Element> = {
   "text-search": <TextSnippetIcon />,
   "odt-search": <TextFormatIcon />,
-  "pdf-search": <PictureAsPdfIcon/>
+  "pdf-search": <PictureAsPdfIcon />,
 };
 
 export const SearchResult: React.VFC<{
-  phrase: string;
+  phrases: string[];
   filePath: string;
   service: keyof SearchResponse;
   matches: Array<Match>;
-}> = ({ phrase, filePath, service, matches }) => (
+}> = ({ phrases, filePath, service, matches }) => (
   <Paper
     key={filePath}
     sx={{
@@ -50,7 +50,7 @@ export const SearchResult: React.VFC<{
         {service === "text-search" &&
           `[${(match as PlainTextMatch).lineNumber}]`}{" "}
         <Highlighter
-          searchWords={[phrase]}
+          searchWords={phrases}
           textToHighlight={match.searchContext}
         />
       </Box>

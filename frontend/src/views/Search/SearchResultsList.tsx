@@ -16,10 +16,10 @@ export const SearchResultsList: React.VFC<SearchResultsProps> = ({ state }) => {
         {Object.entries(state.results).map(([service, { errors }]) => (
           <SearchError service={service} errors={errors} />
         ))}
-        {Object.entries(state.results).map(([service, { phrase, results }]) =>
+        {Object.entries(state.results).map(([service, { phrases, results }]) =>
           results.map((result) => (
             <SearchResult
-              phrase={phrase}
+              phrases={phrases}
               filePath={result.filePath}
               service={service as keyof SearchResponse}
               matches={result.matches}

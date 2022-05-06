@@ -8,6 +8,7 @@ import {
   FormGroup,
   FormControlLabel,
   Checkbox,
+  Divider,
 } from "@mui/material";
 import cx from "classnames";
 import styles from "./Search.module.scss";
@@ -17,7 +18,12 @@ import {
   Search as SearchIcon,
 } from "@mui/icons-material";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { SearchParams, SearchResponse, SERVICES } from "../../commons/types";
+import {
+  SearchParams,
+  SearchResponse,
+  SERVICES,
+  LANGUAGES,
+} from "../../commons/types";
 
 type SearchFormProps = {
   onSubmit: SubmitHandler<SearchParams>;
@@ -26,7 +32,12 @@ type SearchFormProps = {
 const serviceLabelMap: Record<keyof SearchResponse, string> = {
   "text-search": "Plain text",
   "odt-search": "ODT",
-  "pdf-search": "PDF"
+  "pdf-search": "PDF",
+};
+
+const languageLabelMap: Record<typeof LANGUAGES[number], string> = {
+  en: "English",
+  de: "German",
 };
 
 export const SearchForm: React.VFC<SearchFormProps> = ({ onSubmit }) => {
@@ -114,7 +125,9 @@ export const SearchForm: React.VFC<SearchFormProps> = ({ onSubmit }) => {
         >
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <FormGroup>
+              <h4 className={styles.formHeader}>File types</h4>
+              <Divider />
+              <FormGroup row>
                 {SERVICES.map((service, i) => (
                   <FormControlLabel
                     key={service}
@@ -122,6 +135,21 @@ export const SearchForm: React.VFC<SearchFormProps> = ({ onSubmit }) => {
                     label={serviceLabelMap[service]}
                     value={service}
                     {...register(`additionalInfo.enabledFormats.${i}`)}
+                  />
+                ))}
+              </FormGroup>
+            </Grid>
+            <Grid item xs={12}>
+              <h4 className={styles.formHeader}>Languages (except Polish)</h4>
+              <Divider />
+              <FormGroup row>
+                {LANGUAGES.map((language, i) => (
+                  <FormControlLabel
+                    key={language}
+                    control={<Checkbox defaultChecked />}
+                    label={languageLabelMap[language]}
+                    value={language}
+                    {...register(`additionalInfo.lang.${i}`)}
                   />
                 ))}
               </FormGroup>
