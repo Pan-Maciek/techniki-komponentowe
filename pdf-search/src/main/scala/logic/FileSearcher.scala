@@ -10,7 +10,7 @@ import scala.jdk.javaapi.CollectionConverters
 class FileSearcher(path: String) {
   var errors: Seq[String] = Seq()
 
-  def findInDir(phrase: String): Seq[FileSearchResult] = {
+  def findInDir(phrases: Seq[String]): Seq[FileSearchResult] = {
     errors = Seq()
 
     val stream: Iterator[Path] = CollectionConverters.asScala(Files.walk(Paths.get(path)).iterator())
@@ -20,7 +20,7 @@ class FileSearcher(path: String) {
       .filter(_.toLowerCase.endsWith(".pdf"))
       .map(
         try {
-          PdfSearcher.phraseOccurrences(phrase, _)
+          PdfSearcher.phraseOccurrences(phrases, _)
         } catch {
           case e: Throwable =>
             errors +:= e.toString

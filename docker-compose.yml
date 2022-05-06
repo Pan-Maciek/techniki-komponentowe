@@ -33,6 +33,10 @@ services:
       - "8080:8080"
     volumes:
       - "${SEARCH_DIRECTORY:-./samples}:/app/files:ro"
+  translation:
+    build:
+      context: translation
+      dockerfile: Dockerfile
   frontend:
     build:
       context: frontend

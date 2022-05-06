@@ -4,14 +4,17 @@ import java.util.List;
 
 public final class RequestResult {
 
-    private final String phrase;
+    private final List<String> phrases;
+
+    private final List<String> lang;
     private final String status;
     private final List<FileSearchResult> results;
     private final List<String> errors;
 
 
-    public RequestResult(String phrase, String status, List<FileSearchResult> results, List<String> errors) {
-        this.phrase = phrase;
+    public RequestResult(List<String> phrases, List<String> lang, String status, List<FileSearchResult> results, List<String> errors) {
+        this.phrases = phrases;
+        this.lang = lang;
         this.status = status;
         this.results = results;
         this.errors = errors;
@@ -38,7 +41,11 @@ public final class RequestResult {
                 '}';
     }
 
-    public String getPhrase() {
-        return phrase;
+    public List<String> getPhrases() {
+        return phrases;
+    }
+
+    public List<String> getLang() {
+        return lang;
     }
 }
