@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.getForObject
+import pl.edu.agh.backend.encode
 
 @Service
 class TranslationService(
@@ -15,7 +16,7 @@ class TranslationService(
     fun translate(phrase: String, languages: List<String>): List<String> {
         logger.info("Getting translations for $phrase in $languages")
         val url = "http://translation:3000/translate?phrase={phrase}&lang={languages}"
-        val phrases = restTemplate.getForObject<List<String>>(url, phrase, languages)
+        val phrases = restTemplate.getForObject<List<String>>(url, phrase.encode(), languages)
         logger.info("Translation result for $phrase in $languages: $phrases")
         return phrases
     }
