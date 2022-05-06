@@ -18,7 +18,8 @@ public class SearchController : ControllerBase {
     [HttpGet]
     public IActionResult Get([FromQuery] SearchRequest request) {
         var rootPath = request.RootPath;
-        var phrases = request.Phrases.Select(HttpUtility.UrlDecode).WhereNotNull().ToList();
+        var phrases = request.Phrases.Split(',').Select(HttpUtility.UrlDecode).WhereNotNull().ToList();
+        var lang = request.Lang.Split(',').ToList();
         
         _logger.LogInformation("Searching in {Path} for *.txt | *.md files containing '{Phrases}'", rootPath, phrases);
         
@@ -27,23 +28,23 @@ public class SearchController : ControllerBase {
         try
         {
             var results =  _fileFinder.FindInDirectory(rootPath, uniquePhrases);
-            return Ok(new SearchResponse(phrases, results));
+            return Ok(new SearchResponse(phrases, lang, results));
         }
         catch (Exception e)
         {
             _logger.LogError("Search in {Path} failed with: {Error}", rootPath, e.Message);
-            return Ok(new SearchResponse(phrases, e));
+            return Ok(new SearchResponse(phrases, lang, e));
         }
     }
     
-    public record SearchRequest(List<string> Phrases, string RootPath);
+    public record SearchRequest(string Phrases, string Lang, string RootPath);
     
-    public record SearchResponse(List<string> Phrases, string Status, List<FileSearchResult> Results, List<string> Errors)
+    public record SearchResponse(List<string> Phrases, List<string> Lang, string Status, List<FileSearchResult> Results, List<string> Errors)
     {
-        public SearchResponse(List<string> phrases, List<FileSearchResult> results) 
-            : this(phrases, "ok", results, new List<string>()) { }
+        public SearchResponse(List<string> phrases, List<string> lang, List<FileSearchResult> results) 
+            : this(phrases, lang, "ok", results, new List<string>()) { }
 
-        public SearchResponse(List<string> phrases, Exception exception) 
-            : this(phrases, "error", new List<FileSearchResult>(), new List<string> {exception.Message}) { }
+        public SearchResponse(List<string> phrases, List<string> lang, Exception exception) 
+            : this(phrases, lang, "error", new List<FileSearchResult>(), new List<string> {exception.Message}) { }
     }
 }
