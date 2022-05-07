@@ -9,4 +9,7 @@ RUN npm install -g newman
 
 WORKDIR /app
 
-CMD ["newman", "run", "postman.json"]
+ENTRYPOINT ["sh", "./run-newman.sh"]
+
+#CMD ["newman", "run", "odt-search.json"] &&
+#CMD ["newman", "run", "pdf-search.json"]
