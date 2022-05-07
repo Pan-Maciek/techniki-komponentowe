@@ -11,22 +11,22 @@ app = Flask(__name__)
 @app.route("/search", methods=["GET"])
 def search():
     phrases: List[str] = request.args.getlist("phrases")
-    languages: List[str] = request.args.getlist("languages")
+    lang: List[str] = request.args.getlist("lang")
     root_path: str = request.args.get("rootPath")
 
     try:
         file_searcher = FileSearcher(root_path)
         request_res = RequestResult(
             phrases=phrases,
-            languages=languages,
+            lang=lang,
             status="ok",
-            results=file_searcher.find_phrases(phrases, languages),
+            results=file_searcher.find_phrases(phrases, lang),
             errors=file_searcher.errors
         )
     except Exception as e:
         request_res = RequestResult(
             phrases=phrases,
-            languages=languages,
+            lang=lang,
             status="error",
             results=[],
             errors=[str(e)]
