@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
 import org.springframework.web.util.UriComponentsBuilder
+import pl.edu.agh.backend.encode
 import java.io.File
 import java.util.stream.Collectors
 
@@ -25,7 +26,7 @@ class MicroserviceCommunicationService(
             return mapOf("backend" to ErrorResponse(path = rootPath, errors = listOf("The given path does not exists.")) as Any)
         }
 
-        val phrases = translationService.translate(phrase, languages)
+        val phrases = translationService.translate(phrase.encode(), languages)?.joinToString(",") { it.encode() }
 
         val activeServices = serviceMap.filterServices(enabledFormats)
 
@@ -51,5 +52,4 @@ class MicroserviceCommunicationService(
     }
 
     fun fileExists(path: String) : Boolean = File(path).exists()
-
 }
