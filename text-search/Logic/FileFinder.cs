@@ -1,19 +1,23 @@
-﻿namespace TextSearch.Logic; 
+﻿using Microsoft.Extensions.FileSystemGlobbing;
 
-public class FileFinder : IFileFinder {
+namespace TextSearch.Logic; 
 
-    public List<FileSearchResult> FindInDirectory(string path, string phrase) => 
-        FindInDirectoryHelper(path, phrase).ToList();
-
-    private IEnumerable<FileSearchResult> FindInDirectoryHelper(string path, string phrase) {
-            var other = Directory.EnumerateDirectories(path).SelectMany(directory => FindInDirectoryHelper(directory, phrase));
-            var current = Directory.EnumerateFiles(path)
-               .Where(filePath => filePath.EndsWith(".txt") || filePath.EndsWith(".md"))
-               .Select(filePath => FindInFile(filePath, phrase))
-               .WhereNotNull();
-
-            return current.Concat(other);
+public class FileFinder : IFileFinder
+{
+    private static readonly Matcher Matcher;
+    
+    static FileFinder()
+    {
+        Matcher = new Matcher()
+            .AddInclude("**/*.txt")
+            .AddInclude("**/*.md");
     }
+
+    public List<FileSearchResult> FindInDirectory(string path, string phrase) =>
+        Matcher.GetResultsInFullPath(path)
+            .Select(file => FindInFile(file, phrase))
+            .WhereNotNull()
+            .ToList();
 
     public FileSearchResult? FindInFile(string path, string phrase) {
         var results = File.ReadLines(path)
