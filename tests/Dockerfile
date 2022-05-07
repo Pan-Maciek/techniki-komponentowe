@@ -10,6 +10,3 @@ RUN npm install -g newman
 WORKDIR /app
 
 ENTRYPOINT ["sh", "./run-newman.sh"]
-
-#CMD ["newman", "run", "odt-search.json"] &&
-#CMD ["newman", "run", "pdf-search.json"]

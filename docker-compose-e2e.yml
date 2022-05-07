@@ -10,6 +10,8 @@ services:
     volumes:
       - ./frontend/cypress:/e2e/cypress
       - ./frontend/cypress.json:/e2e/cypress.json
+    networks:
+      - techniki-komponentowe_test-net
   newman-tests:
     build:
       context: ./tests
@@ -18,6 +20,8 @@ services:
     external_links:
       - odt-search
       - pdf-search
+      - text-search
+      - translation
     volumes:
       - ./tests:/app:rw
     networks:

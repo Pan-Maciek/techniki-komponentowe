@@ -67,6 +67,7 @@ services:
     ports:
       - "3000:3000"
     networks:
+      - test-net
       - internal
     environment:
       CHOKIDAR_USEPOLLING: "true"
