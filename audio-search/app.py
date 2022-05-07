@@ -4,14 +4,15 @@ from src.result import RequestResult
 import json
 from typing import List
 
+DEFAULT_ARR_SEPARATOR = ','
 
 app = Flask(__name__)
 
 
 @app.route("/search", methods=["GET"])
 def search():
-    phrases: List[str] = request.args.getlist("phrases")
-    lang: List[str] = request.args.getlist("lang")
+    phrases: List[str] = request.args.get("phrases").split(DEFAULT_ARR_SEPARATOR)
+    lang: List[str] = request.args.get("lang").split(DEFAULT_ARR_SEPARATOR)
     root_path: str = request.args.get("rootPath")
 
     try:

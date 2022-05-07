@@ -12,15 +12,15 @@ Uses SpeechRecognition for speech recognition and flask for http server
 
 ### Request format
 
-`http://localhost:9031/search?rootPath={path}&phrase={phrase}`
+`http://localhost:9031/search?rootPath={path}&phrases={phrases}&langs={languages}`
 
 Example
 
-`http://localhost:9031/search?rootPath=/app/files&phrase=the`
+`http://localhost:9031/search?rootPath=/app/files&phrases=drzewo&langs=pl`
 
 ### Example response (success)
 
-`http://localhost:9031/search?rootPath=/app/files&phrases=who&phrases=kto&langs=en-US&langs=pl-PL`
+`http://localhost:9031/search?rootPath=/app/files&phrases=who,kto&langs=en-US,pl-PL`
 
 ```json
 {
@@ -52,7 +52,7 @@ Example
 
 ### Example response (error)
 
-`http://localhost:9031/search?rootPath=/app/files&phrases=who&phrases=kto&langs=en-US`
+`http://localhost:9031/search?rootPath=/app/files&phrases=who,kto&langs=en-US`
 
 ```json
 {
