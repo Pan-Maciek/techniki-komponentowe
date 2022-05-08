@@ -29,18 +29,25 @@ export type RichTextMatch = {
   searchContext: string;
 };
 
-export type Match = PlainTextMatch | RichTextMatch;
+export type AudioMatch = {
+  indices: Array<number>;
+  searchContext: string;
+};
+
+export type Match = PlainTextMatch | RichTextMatch | AudioMatch;
 
 export type SearchResponse = {
   "text-search": ServiceResponse<PlainTextMatch>;
   "odt-search": ServiceResponse<RichTextMatch>;
   "pdf-search": ServiceResponse<RichTextMatch>;
+  "audio-search": ServiceResponse<AudioMatch>;
 };
 
 export const SERVICES: Array<keyof SearchResponse> = [
   "text-search",
   "odt-search",
   "pdf-search",
+  "audio-search",
 ];
 
 export const LANGUAGES = ["en", "de"] as const;
