@@ -33,10 +33,10 @@ services:
       - "9031:8184"
     volumes:
       - "${search_directory:-./samples}:/app/files:ro"
-  conversion:
+  converter:
     build:
-      context: conversion
-      dockerile: Dockerfile
+      context: converter
+      dockerfile: Dockerfile
     ports:
       - "9041:8185"
     volumes:
