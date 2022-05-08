@@ -1,0 +1,88 @@
+{
+	"info": {
+		"_postman_id": "18b99dcc-2d30-4a7d-8c21-9692e41e78a0",
+		"name": "text-service-test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "text-search",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var expectedBody = {",
+							"    \"phrases\": [",
+							"        \"untied\"",
+							"    ],",
+							"    \"lang\": [",
+							"        \"eng\"",
+							"    ],",
+							"    \"status\": \"ok\",",
+							"    \"results\": [",
+							"        {",
+							"            \"filePath\": \"/app/files/sample.txt\",",
+							"            \"matches\": [",
+							"                {",
+							"                    \"searchContext\": \"With both my hands untied\",",
+							"                    \"indices\": [",
+							"                        19",
+							"                    ],",
+							"                    \"lineNumber\": 8",
+							"                },",
+							"                {",
+							"                    \"searchContext\": \"With both my hands untied\",",
+							"                    \"indices\": [",
+							"                        19",
+							"                    ],",
+							"                    \"lineNumber\": 20",
+							"                }",
+							"            ]",
+							"        }",
+							"    ],",
+							"    \"errors\": []",
+							"}",
+							"pm.test('Success', function() {",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.body === expectedBody;",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://text-search:80/search?rootPath=/app/files&phrases=untied&lang=eng",
+					"protocol": "http",
+					"host": [
+						"text-search"
+					],
+					"port": "80",
+					"path": [
+						"search"
+					],
+					"query": [
+						{
+							"key": "rootPath",
+							"value": "/app/files"
+						},
+						{
+							"key": "phrases",
+							"value": "untied"
+						},
+						{
+							"key": "lang",
+							"value": "eng"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
