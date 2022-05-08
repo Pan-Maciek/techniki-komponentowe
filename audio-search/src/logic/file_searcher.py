@@ -22,7 +22,7 @@ class FileSearcher:
 
         #
         conversion_result = requests.get(
-            "http://localhost:8185/audio_to_wav",
+            "http://converter:8185/audio_to_wav",
             {"rootPath": self.path}
         ).json()
 
@@ -47,7 +47,7 @@ class FileSearcher:
                     self.errors.append(str(e))
 
         requests.get(
-            "http://localhost:8185/cleanup_audio",
+            "http://converter:8185/cleanup_audio",
             {"rootPath": self.path}
         )
 
