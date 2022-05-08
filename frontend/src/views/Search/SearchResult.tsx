@@ -7,12 +7,14 @@ import {
   TextFormat as TextFormatIcon,
   TextSnippet as TextSnippetIcon,
   PictureAsPdf as PictureAsPdfIcon,
+  Audiotrack as AudiotrackIcon,
 } from "@mui/icons-material";
 
 const serviceIconMap: Record<keyof SearchResponse, JSX.Element> = {
   "text-search": <TextSnippetIcon />,
   "odt-search": <TextFormatIcon />,
   "pdf-search": <PictureAsPdfIcon />,
+  "audio-search": <AudiotrackIcon />,
 };
 
 export const SearchResult: React.VFC<{
