@@ -30,4 +30,9 @@ if ! ./wait-for localhost:9031 -t 10; then
   exit 1
 fi
 
+if ! ./wait-for localhost:9041 -t 10; then
+  echo "converter is not available"
+  exit 1
+fi
+
 echo "all services are available"

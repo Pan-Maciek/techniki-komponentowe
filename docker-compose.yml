@@ -33,6 +33,14 @@ services:
       - "9031:8184"
     volumes:
       - "${search_directory:-./samples}:/app/files:ro"
+  conversion:
+    build:
+      context: conversion
+      dockerile: Dockerfile
+    ports:
+      - "9041:8185"
+    volumes:
+      - "${search_directory:-./samples}:/app/files:ro"
   backend:
     build:
       context: backend
