@@ -41,7 +41,7 @@ class MicroserviceCommunicationService(
             it.key to webClient.get().uri(url).retrieve().bodyToMono<Any>()
         }.toMap()
 
-        return monos.entries.parallelStream().map { it ->
+        return monos.entries.parallelStream().map {
             logger.info("Sending request to ${it.key} phrase: $phrase path: $rootPath")
             it.key to
                     (it.value
