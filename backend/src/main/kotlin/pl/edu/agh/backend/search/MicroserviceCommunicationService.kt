@@ -41,10 +41,10 @@ class MicroserviceCommunicationService(
             it.key to webClient.get().uri(url).retrieve().bodyToMono<Any>()
         }.toMap()
 
-        return monos.entries.parallelStream().map { entry ->
-            logger.info("Sending request to ${entry.key} phrase: $phrase path: $rootPath")
-            entry.key to
-                    (entry.value
+        return monos.entries.parallelStream().map { it ->
+            logger.info("Sending request to ${it.key} phrase: $phrase path: $rootPath")
+            it.key to
+                    (it.value
                             .onErrorReturn(ErrorResponse(rootPath, errors = listOf("Invalid request to service.")))
                             .block() ?: "[]")
         }.collect(Collectors.toMap({ it.first }, { it.second }))
