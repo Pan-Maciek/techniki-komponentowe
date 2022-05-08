@@ -15,35 +15,34 @@ object PdfSearcher {
 
     val pdfText = stripper.getText(pdf).toLowerCase
 
-
     val paragraphRes: Seq[Matches] = pdfText
       .split(stripper.getLineSeparator)
       .map(line => {
-        var indices: Seq[Int] = Seq()
+        val indices: Seq[Int] = phrases
+          .map { _.toLowerCase }
+          .flatMap { indicesOf(line, _) }
 
-        phrases
-          .map(phrase => phrase.toLowerCase)
-          .foreach(phrase => {
-            var index = 0
-            while (index >= 0) {
-              index = StringUtils.indexOf(line, phrase, index + 1)
-              if (index >= 0) {
-                indices :+= index
-              }
-            }
-          }
-          )
-
-        if (indices.nonEmpty)
-          Matches(line, indices)
-        else
-          null
+        if (indices.nonEmpty) Matches(line, indices)
+        else null
       })
       .filter(nonNull)
       .toSeq
 
     pdf.close()
 
-    if (!paragraphRes.isEmpty) FileSearchResult(path, paragraphRes) else null
+    if (paragraphRes.nonEmpty) FileSearchResult(path, paragraphRes)
+    else null
+  }
+
+  def indicesOf(input: String, phrase: String): Seq[Int] = {
+    var indices = Seq[Int]()
+    var index = 0
+    while (index >= 0) {
+      index = StringUtils.indexOf(input, phrase, index + 1)
+      if (index >= 0) {
+        indices :+= index
+      }
+    }
+    indices
   }
 }

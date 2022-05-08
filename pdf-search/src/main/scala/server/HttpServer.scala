@@ -10,6 +10,8 @@ import logic.FileSearcher
 import result.Result.{FileSearchResult, Matches, RequestResult}
 import spray.json.{DefaultJsonProtocol, RootJsonFormat}
 
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 import scala.language.postfixOps
@@ -29,7 +31,8 @@ class HttpServer extends SprayJsonSupport with DefaultJsonProtocol {
     path("search") {
       get {
         parameters("phrases".as[Seq[String]], "lang".as[Seq[String]], "rootPath".as[String]) {
-          (phrases, lang, rootPath) =>
+          (raw_phrases, lang, rootPath) =>
+            val phrases = raw_phrases.map { URLDecoder.decode(_, "utf8") }
             try {
               val fileSearcher = new FileSearcher(rootPath)
               val res = fileSearcher.findInDir(phrases)
