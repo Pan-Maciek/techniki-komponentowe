@@ -17,8 +17,8 @@ class TranslationService(
     fun translate(phrase: String, languages: List<String>): List<String>? {
         logger.info("Getting translations for $phrase in $languages")
         val url = UriComponentsBuilder.fromHttpUrl("http://translation:3000/translate")
-                .queryParam("phrase", phrase.encode())
-                .queryParam("lang", languages)
+                .queryParam("phrase", phrase)
+                .queryParam("lang", languages.joinToString(","))
                 .encode()
                 .toUriString()
 

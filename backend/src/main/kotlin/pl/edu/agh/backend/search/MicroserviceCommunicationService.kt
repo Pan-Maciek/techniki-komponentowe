@@ -26,13 +26,13 @@ class MicroserviceCommunicationService(
             return mapOf("backend" to ErrorResponse(path = rootPath, errors = listOf("The given path does not exists.")) as Any)
         }
 
-        val phrases = translationService.translate(phrase.encode(), languages)?.joinToString(",") { it.encode() }
+        val phrases = translationService.translate(phrase, languages)?.joinToString(",")
 
         val activeServices = serviceMap.filterServices(enabledFormats)
 
         val monos = activeServices.map {
             val url = UriComponentsBuilder.fromHttpUrl("http://${it.key}:${it.value}/search")
-                    .queryParam("lang", listOf("pl") + languages)
+                    .queryParam("lang", (listOf("pl") + languages).joinToString(","))
                     .queryParam("phrases", phrases)
                     .queryParam("rootPath", rootPath)
                     .encode()

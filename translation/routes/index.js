@@ -6,7 +6,7 @@ router.get('/languages', (req, res) => res.json(languages))
 
 router.get('/translate', async (req, res) => {
   const phrase = decodeURIComponent(req.query.phrase)
-  const langs = req.query.lang?.replace(/\s+|[\[\]]/g, '')?.split(',')?.filter(Boolean) ?? []
+  const langs = req.query.lang?.split(',')?.filter(Boolean) ?? []
   const translations = await Promise.all(langs.map(lang => translate(phrase, { from: 'pl', to: lang })))
   res.json([phrase, ...translations])
 })
