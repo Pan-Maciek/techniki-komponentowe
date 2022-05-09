@@ -13,9 +13,9 @@ public class FileFinder : IFileFinder
             .AddInclude("**/*.md");
     }
 
-    public List<FileSearchResult> FindInDirectory(string path, string phrase) =>
+    public List<FileSearchResult> FindInDirectory(string path, List<string> phrases) =>
         Matcher.GetResultsInFullPath(path)
-            .Select(file => FindInFile(file, phrase))
+            .Select(file => FindInFile(file, phrases))
             .WhereNotNull()
             .ToList();
 
