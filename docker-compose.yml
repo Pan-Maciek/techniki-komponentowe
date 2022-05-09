@@ -53,6 +53,7 @@ services:
     volumes:
       - "${SEARCH_DIRECTORY:-./samples}:/app/files:ro"
     networks:
+      - test-net
       - internal
   translation:
     build:
