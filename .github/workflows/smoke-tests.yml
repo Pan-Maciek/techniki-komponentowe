@@ -10,5 +10,7 @@ jobs:
         run: docker-compose up -d --build
       - name: Wait for startup
         run: ./wait-for-all
+      - name: Run Newman tests
+        run: docker-compose --f docker-compose-newman.yml up --build --exit-code-from newman-tests
       - name: Run Cypress tests
-        run: docker-compose --f docker-compose-e2e.yml up --build --exit-code-from cypress
+        run: docker-compose --f docker-compose-cypress.yml up --build --exit-code-from cypress
