@@ -3,17 +3,18 @@ package pl.edu.agh.backend.search
 import org.slf4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import org.springframework.web.client.RestTemplate
-import org.springframework.web.client.getForObject
+import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.bodyToMono
 import org.springframework.web.util.UriComponentsBuilder
 import pl.edu.agh.backend.encode
 import java.io.File
+import java.util.stream.Collectors
 
 @Service
 class MicroserviceCommunicationService(
-    @Autowired val restTemplate: RestTemplate,
-    @Autowired val translationService: TranslationService,
-    @Autowired val logger: Logger
+        @Autowired val webClient: WebClient,
+        @Autowired val translationService: TranslationService,
+        @Autowired val logger: Logger
 ) {
     val serviceMap = ServiceMap()
 
@@ -25,20 +26,29 @@ class MicroserviceCommunicationService(
             return mapOf("backend" to ErrorResponse(path = rootPath, errors = listOf("The given path does not exists.")) as Any)
         }
 
-        val phrases = translationService.translate(phrase, languages).joinToString(",")
+        val phrases = translationService.translate(phrase, languages)?.joinToString(",")
 
-        return serviceMap.filterServices(enabledFormats).mapValues {
-            val url = UriComponentsBuilder
-                .fromHttpUrl("http://${it.key}:${it.value}/search")
-                .queryParam("lang", (listOf("pl") + languages).joinToString(","))
-                .queryParam("phrases", phrases)
-                .queryParam("rootPath", rootPath)
-                .encode()
-                .toUriString()
+        val activeServices = serviceMap.filterServices(enabledFormats)
 
-            logger.info("Sending request to ${it.key}", phrase, rootPath)
-            restTemplate.getForObject(url)
-        }
+        val monos = activeServices.map {
+            val url = UriComponentsBuilder.fromHttpUrl("http://${it.key}:${it.value}/search")
+                    .queryParam("lang", (listOf("pl") + languages).joinToString(","))
+                    .queryParam("phrases", phrases)
+                    .queryParam("rootPath", rootPath)
+                    .encode()
+                    .toUriString()
+
+            it.key to webClient.get().uri(url).retrieve().bodyToMono<Any>()
+        }.toMap()
+
+        return monos.entries.parallelStream().map {
+            logger.info("Sending request to ${it.key} phrase: $phrase path: $rootPath")
+            it.key to
+                    (it.value
+                            .onErrorReturn(ErrorResponse(rootPath, errors = listOf("Invalid request to service.")))
+                            .block() ?: "[]")
+        }.collect(Collectors.toMap({ it.first }, { it.second }))
+
     }
 
     fun fileExists(path: String) : Boolean = File(path).exists()

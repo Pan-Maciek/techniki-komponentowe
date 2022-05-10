@@ -10,3 +10,8 @@ services:
     volumes:
       - ./frontend/cypress:/e2e/cypress
       - ./frontend/cypress.json:/e2e/cypress.json
+    networks:
+      - techniki-komponentowe_test-net
+networks:
+  techniki-komponentowe_test-net:
+    external: true

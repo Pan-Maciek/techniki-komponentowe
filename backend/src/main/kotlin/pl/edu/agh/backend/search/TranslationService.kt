@@ -3,27 +3,33 @@ package pl.edu.agh.backend.search
 import org.slf4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import org.springframework.web.client.RestTemplate
-import org.springframework.web.client.getForObject
+import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.bodyToMono
+import org.springframework.web.util.UriComponentsBuilder
 import pl.edu.agh.backend.encode
 
 @Service
 class TranslationService(
-    @Autowired val restTemplate: RestTemplate,
-    @Autowired val logger: Logger
+        @Autowired val webClient: WebClient,
+        @Autowired val logger: Logger
 ){
 
-    fun translate(phrase: String, languages: List<String>): List<String> {
+    fun translate(phrase: String, languages: List<String>): List<String>? {
         logger.info("Getting translations for $phrase in $languages")
-        val url = "http://translation:3000/translate?phrase={phrase}&lang={languages}"
-        val phrases = restTemplate.getForObject<List<String>>(url, phrase.encode(), languages)
+        val url = UriComponentsBuilder.fromHttpUrl("http://translation:3000/translate")
+                .queryParam("phrase", phrase)
+                .queryParam("lang", languages.joinToString(","))
+                .encode()
+                .toUriString()
+
+        val phrases = webClient.get().uri(url).retrieve().bodyToMono<List<String>>().block()
         logger.info("Translation result for $phrase in $languages: $phrases")
         return phrases
     }
 
-    fun languages(): Map<String, String> {
+    fun languages(): Map<String, String>? {
         logger.info("Getting language list")
         val url = "http://translation:3000/languages"
-        return restTemplate.getForObject(url)
+        return webClient.get().uri(url).retrieve().bodyToMono<Map<String, String>>().block()
     }
 }

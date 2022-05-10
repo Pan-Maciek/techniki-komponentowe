@@ -10,17 +10,17 @@ index of the line, as well as indices of occurrences in each line.
 
 ### Request format
 
-`http://localhost:9001/search?rootPath={path}&phrase={phrase}`
+`http://localhost:9001/search?rootPath={path}&phrases={phrase1,phrase2}`
 
 Example
 
-`http://localhost:9001/search?rootPath=/app/files&phrase=bond`
+`http://localhost:9001/search?rootPath=/app/files&phrases=bond`
 
 ### Example response (success)
 
 ```json
 {
-  "phrase": "bond",
+  "phrases": ["bond"],
   "status": "ok",
   "results": [
     {
@@ -44,7 +44,7 @@ Example
 
 ```json
 {
-  "phrase": "bond",
+  "phrases": ["bond"],
   "status": "error",
   "results": [],
   "errors": [

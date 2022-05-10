@@ -13,6 +13,7 @@ export type SearchState =
   | {
       status: "SUCCESS";
       results: SearchResponse;
+      rootPath: string;
     }
   | {
       status: "ERROR";
@@ -34,7 +35,7 @@ export const Search = () => {
     setSearchState({ status: "LOADING" });
     try {
       const results = await search(data);
-      setSearchState({ status: "SUCCESS", results });
+      setSearchState({ status: "SUCCESS", results, rootPath: data.rootPath });
     } catch (error) {
       setSearchState({ status: "ERROR", error });
     }

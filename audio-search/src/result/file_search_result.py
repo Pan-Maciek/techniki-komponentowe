@@ -3,12 +3,12 @@ from typing import List
 
 
 class FileSearchResult:
-    path: str
+    filePath: str
     matches: List[Matches]
 
-    def __init__(self, path: str, matches: List[Matches]):
-        self.path = path
+    def __init__(self, filePath: str, matches: List[Matches]):
+        self.filePath = filePath
         self.matches = matches
 
     def change_path(self, new_path: str):
-        self.path = new_path
+        self.filePath = new_path
