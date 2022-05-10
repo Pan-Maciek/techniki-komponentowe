@@ -15,7 +15,6 @@ object PdfSearcher {
 
     val pdfText = stripper.getText(pdf).toLowerCase
 
-
     val paragraphRes: Seq[Matches] = pdfText
       .split(stripper.getLineSeparator)
       .map(line => {
