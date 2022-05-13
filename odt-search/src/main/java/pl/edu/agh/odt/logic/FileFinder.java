@@ -13,12 +13,12 @@ public class FileFinder {
 
     private final List<String> exceptions;
     private final String rootPath;
-    private final String phrase;
+    private final List<String> phrases;
 
-    public FileFinder(String rootPath, String phrase){
+    public FileFinder(String rootPath, List<String> phrases){
         this.exceptions = new ArrayList<>();
         this.rootPath = rootPath;
-        this.phrase = phrase;
+        this.phrases = phrases;
     }
 
     public List<String> getExceptions(){
@@ -28,7 +28,7 @@ public class FileFinder {
     public List<FileSearchResult> findInDirectory() throws IOException {
         return getOdtPathStream().map(filePath -> {
             try {
-                return OdtSearcher.phraseOccurrences(phrase, filePath);
+                return OdtSearcher.phraseOccurrences(phrases, filePath);
             } catch (Exception e) {
                 exceptions.add(e.getMessage());
                 return null;

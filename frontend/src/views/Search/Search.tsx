@@ -27,7 +27,10 @@ export const Search = () => {
 
   const onSubmit: SubmitHandler<SearchParams> = async (data) => {
     data.additionalInfo.enabledFormats =
-      data.additionalInfo.enabledFormats.filter((format) => !!format);
+      data.additionalInfo.enabledFormats.filter((format: string) => !!format);
+    data.additionalInfo.lang = data.additionalInfo.lang.filter(
+      (format: string) => !!format
+    );
 
     setSearchState({ status: "LOADING" });
     try {

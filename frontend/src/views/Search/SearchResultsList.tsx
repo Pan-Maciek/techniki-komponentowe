@@ -21,10 +21,10 @@ export const SearchResultsList: React.VFC<SearchResultsProps> = ({ state }) => {
   if (state.status === "SUCCESS") {
     const tree = {};
 
-    Object.entries(state.results).forEach(([service, { phrase, results }]) =>
+    Object.entries(state.results).forEach(([service, { phrases, results }]) =>
       results.forEach(({ filePath, matches }) => {
         const item = {
-          phrase,
+          phrases,
           filePath,
           service: service as keyof SearchResponse,
           matches,

@@ -9,6 +9,9 @@ services:
       - "9002:443"
     volumes:
       - "${SEARCH_DIRECTORY:-./samples}:/app/files:ro"
+    networks:
+      - test-net
+      - internal
   odt-search:
     build:
       context: odt-search
@@ -17,6 +20,9 @@ services:
       - "9011:8182"
     volumes:
       - "${search_directory:-./samples}:/app/files:ro"
+    networks:
+      - test-net
+      - internal
   pdf-search:
     build:
       context: pdf-search
@@ -25,6 +31,19 @@ services:
       - "9021:8183"
     volumes:
       - "${search_directory:-./samples}:/app/files:ro"
+    networks:
+      - test-net
+      - internal
+  audio-search:
+    build:
+      context: audio-search
+      dockerfile: Dockerfile
+    ports:
+      - "9031:8184"
+    volumes:
+      - "${search_directory:-./samples}:/app/files:ro"
+    networks:
+      - internal
   backend:
     build:
       context: backend
@@ -33,26 +52,33 @@ services:
       - "8080:8080"
     volumes:
       - "${SEARCH_DIRECTORY:-./samples}:/app/files:ro"
+    networks:
+      - test-net
+      - internal
+  translation:
+    build:
+      context: translation
+      dockerfile: Dockerfile
+    networks:
+      - internal
   frontend:
     build:
       context: frontend
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    networks:
+      - test-net
+      - internal
     environment:
       CHOKIDAR_USEPOLLING: "true"
       REACT_APP_BACKEND_URL: "${REACT_APP_BACKEND_URL:-http://backend:8080/}"
     volumes:
       - ./frontend:/app
       - /app/node_modules
-  test:
-    build:
-      context: ./odt-search/src/test/
-      dockerfile: Dockerfile
-    image: e2etest
-    links:
-      - odt-search
-    volumes:
-      - ./odt-search/src/test:/app:rw
 
-
+networks:
+  test-net:
+    driver: bridge
+  internal:
+    driver: bridge

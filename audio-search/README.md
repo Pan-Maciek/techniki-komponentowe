@@ -1,28 +1,72 @@
-#### Znalezione technologie:
-- https://alphacephei.com/vosk/ - działa offline, ale lekkie modele nie są zbyt dokładne, więc wymagałoby pobierania sporych paczek z modelami
-- https://github.com/cmusphinx/pocketsphinx - nei był zbyt wygodny do skonfigurowania, ale można go rozważyć
-- https://pypi.org/project/SpeechRecognition/ - Moj faworyt - Wiele źródeł, z których można korzystać, w tym `google_recognition`, który nie wymaga generowania klucza do tego daje naprawdę dobre efekty
+# pdf-search
 
-### Poniżej opisy przy zastosowaniu `SpeechRecognition`
+Returns paths of .wav files containing a given phrase.
+For each file, additionally sends the whole speech transcript where the phrase was found,
+as well as indices of occurrences.
 
-#### Przykłady
-- sr-example.py: przykład podstawowego użycia `SpeechRecognition`
-- sr-for-long-files.py: przykład (znaleziony w internecie) użycia `SpeechRecognition` z rozbiciem pliku na mniejsze (potrzebny `pydub` (który zaś rzekomo wymaga `ffmpeg` lub `avconv` - ale wydaje się działaś nawet bez nich)) - niestety tworzy on pliki (docelowo trzeba by dodać czyszczenie tymczasowo tworzonych plików częściowych)
+Uses SpeechRecognition for speech recognition and flask for http server
 
-#### Problemy
-- Rozpoznawanie dźwięku trwa stosunkowo długo (np. 6-17s dla pliku trwającego 50s - ok. 1/3)
-- Niektóre pliki w ogóle "nie dają się przeanalizować": dla `what-a-wonderful-world.wav` zwracany jest tylko pierwszy wers, 
-dla `africa-toto.wav` jest jedynie rzucany error (Google Speech Recognition could no understand audio) - prawdopodobnie jest to spowodowane instrumentami, które można próbować wyciąć Transformatą Fouriera,
- jednak brzmi to, jak sporo roboty
-- Wymaga połączenia z internetem
+### Available at
 
-#### Potencjalne szczegóły implementacyjne
-Chcąc podać kontekst (np. czas, w okolice minuty, w której występuje dana fraza) można rozbić plik na wiele mniejszych plików i w ten sposób określić okolicę czasu, w którym pojawiła się fraza
+`http://localhost:9031`
 
-#### Opis przykładowych plików z `/resources`:
-- `africa-toto.wav` - plik muzyczny, dla którego rzucane są errory
-- `harvard.wav`, `male.wav` - pliki, w których mężczyzna wypowiada słowa - dobrze sobie z nimi radzi speech_recognition
-- `jackhammer.wav` - przemowa zagłuszona przez hałas - dobry to testowania metody `adjust_for_ambient_noise`
-- `mp3-file.mp3` - plik .mp3
-- `what-a-wonderful-world.wav` - piosenka, dla której speech_recognition rozpoznaje wyłącznie pierwszy wers
-- `wma-file.wma` - plik. wma
+### Request format
+
+`http://localhost:9031/search?rootPath={path}&phrases={phrases}&langs={languages}`
+
+Example
+
+`http://localhost:9031/search?rootPath=/app/files&phrases=drzewo&langs=pl`
+
+### Example response (success)
+
+`http://localhost:9031/search?rootPath=/app/files&phrases=who,kto&langs=en-US,pl-PL`
+
+```json
+{
+  "phrases": [
+    "who",
+    "kto"
+  ],
+  "languages": [
+    "en-US",
+    "pl-PL"
+  ],
+  "status": "ok",
+  "results": [
+    {
+      "path": "app/files/harvard.wav",
+      "matches": [
+        {
+          "search_context": "the mute muffled the hi-tones of the who warned the gold ring fits only appeared ear the old pan was covered with hard fudge what's the log float in the wide river the node on the stalk of wheat grew daily the Heap of fallen leaves was set on fire right fast if you want to finish early his shirt was clean but one button was gone the barrel of beer was a brew of malt and hops tin cans are absent from store shelves",
+          "indices": [
+            37
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": []
+}
+```
+
+### Example response (error)
+
+`http://localhost:9031/search?rootPath=/app/files&phrases=who,kto&langs=en-US`
+
+```json
+{
+  "phrases": [
+    "who",
+    "kto"
+  ],
+  "languages": [
+    "en-US"
+  ],
+  "status": "error",
+  "results": [],
+  "errors": [
+    "Each phrase has to be associated with a language"
+  ]
+}
+```

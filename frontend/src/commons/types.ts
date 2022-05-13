@@ -3,12 +3,14 @@ export type SearchParams = {
   rootPath: string;
   additionalInfo: {
     enabledFormats: string[];
+    lang: string[];
   };
 };
 
 type ServiceResponse<Match> = {
   status: "ok" | "error";
-  phrase: string;
+  lang: string[];
+  phrases: string[];
   results: Array<{
     filePath: string;
     matches: Array<Match>;
@@ -27,16 +29,25 @@ export type RichTextMatch = {
   searchContext: string;
 };
 
-export type Match = PlainTextMatch | RichTextMatch;
+export type AudioMatch = {
+  indices: Array<number>;
+  searchContext: string;
+};
+
+export type Match = PlainTextMatch | RichTextMatch | AudioMatch;
 
 export type SearchResponse = {
   "text-search": ServiceResponse<PlainTextMatch>;
   "odt-search": ServiceResponse<RichTextMatch>;
-  "pdf-search": ServiceResponse<RichTextMatch>
+  "pdf-search": ServiceResponse<RichTextMatch>;
+  "audio-search": ServiceResponse<AudioMatch>;
 };
 
 export const SERVICES: Array<keyof SearchResponse> = [
   "text-search",
   "odt-search",
-  "pdf-search"
+  "pdf-search",
+  "audio-search",
 ];
+
+export const LANGUAGES = ["en", "de"] as const;
