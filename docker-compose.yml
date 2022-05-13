@@ -43,6 +43,7 @@ services:
     volumes:
       - "${search_directory:-./samples}:/app/files:ro"
     networks:
+      - test-net
       - internal
   converter:
     build:
@@ -53,6 +54,7 @@ services:
     volumes:
       - "${search_directory:-./samples}:/app/files:ro"
     networks:
+      - test-net
       - internal
   backend:
     build:
