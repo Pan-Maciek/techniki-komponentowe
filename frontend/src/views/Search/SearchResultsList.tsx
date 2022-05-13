@@ -17,26 +17,26 @@ type SearchResultsProps = {
   state: SearchState;
 };
 
+const convertResultsToTree = (results: SearchResponse, rootPath: string) => {
+  const tree = {};
+  Object.entries(results).forEach(([service, { phrases, results }]) =>
+    results.forEach(({ filePath, matches }) => {
+      const item = {
+        phrases,
+        filePath,
+        service: service as keyof SearchResponse,
+        matches,
+      };
+
+      set(tree, filePath.replace(rootPath, "").split("/").splice(1), item);
+    })
+  );
+  return tree;
+};
+
 export const SearchResultsList: React.VFC<SearchResultsProps> = ({ state }) => {
-  if (state.status === "SUCCESS") {
-    const tree = {};
-
-    Object.entries(state.results).forEach(([service, { phrases, results }]) =>
-      results.forEach(({ filePath, matches }) => {
-        const item = {
-          phrases,
-          filePath,
-          service: service as keyof SearchResponse,
-          matches,
-        };
-
-        set(
-          tree,
-          filePath.replace(state.rootPath, "").split("/").splice(1),
-          item
-        );
-      })
-    );
+  if (state.status === "SUCCESS" || state.status === "PARTIAL_SUCCESS") {
+    const tree = convertResultsToTree(state.results, state.rootPath);
 
     const renderTree = (node) => (
       <Fragment>
@@ -80,6 +80,13 @@ export const SearchResultsList: React.VFC<SearchResultsProps> = ({ state }) => {
             }}
           >
             {renderTree(tree)}
+            {state.status === "PARTIAL_SUCCESS" && (
+              <Skeleton
+                width="100%"
+                height={60}
+                sx={{ my: 2, transform: "none" }}
+              />
+            )}
           </TreeItem>
         </TreeView>
       </Fragment>
