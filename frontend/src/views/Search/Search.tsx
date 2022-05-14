@@ -11,7 +11,7 @@ export type SearchState =
       status: "IDLE" | "LOADING";
     }
   | {
-      status: "SUCCESS";
+      status: "PARTIAL_SUCCESS" | "SUCCESS";
       results: SearchResponse;
       rootPath: string;
     }
@@ -34,12 +34,33 @@ export const Search = () => {
 
     setSearchState({ status: "LOADING" });
     try {
-      const results = await search(data);
-      setSearchState({ status: "SUCCESS", results, rootPath: data.rootPath });
+      const enabledFormats = data.additionalInfo.enabledFormats;
+
+      enabledFormats.forEach((format) => {
+        data.additionalInfo.enabledFormats = [format];
+        search(data).then((results) => {
+          setSearchState((state) => {
+            const currentResults =
+              state.status === "PARTIAL_SUCCESS" ? state.results : {};
+            const newResults = { ...currentResults, ...results };
+
+            return {
+              status:
+                Object.keys(newResults).length === enabledFormats.length
+                  ? "SUCCESS"
+                  : "PARTIAL_SUCCESS",
+              results: newResults,
+              rootPath: data.rootPath,
+            };
+          });
+        });
+      });
     } catch (error) {
       setSearchState({ status: "ERROR", error });
     }
   };
+
+  console.log(searchState);
 
   return (
     <Container>
