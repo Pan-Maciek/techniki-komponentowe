@@ -54,3 +54,14 @@ Technologies: Java, Maven, Restlet, ODFDOM
 Finds all .pdf files containing the phrase in a given directory.
 
 Technologies: Scala, sbt, Apache PDFBox
+
+### [audio-search](./audio-search/README.md)
+Finds all .wav files containing the phrase in a given directory.
+
+Technologies: Python, flask
+
+### [translation](./translation/README.md)
+Translates phrase into specified languages.
+
+Technologies: Node, express
+
