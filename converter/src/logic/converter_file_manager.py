@@ -20,7 +20,8 @@ class ConverterFileManager:
 
     def convert_audio(self) -> Dict[str, str]:
         if os.path.isdir(self.audio_output_dir):
-            raise Exception("Audio output directory already exists. Aborting in order not to mess up users' files")
+            # If user for some reason shut the app down before it managed to delete the tmp dir, let's just remove it now
+            self.cleanup_audio()
         os.mkdir(self.audio_output_dir)
 
         self.errors = []

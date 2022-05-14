@@ -52,7 +52,7 @@ services:
     ports:
       - "9041:8185"
     volumes:
-      - "${search_directory:-./samples}:/app/files:ro"
+      - "${search_directory:-./samples}:/app/files"
     networks:
       - test-net
       - internal
