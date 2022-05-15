@@ -35,4 +35,9 @@ if ! ./wait-for localhost:9041 -t 10; then
   exit 1
 fi
 
+if ! ./wait-for localhost:9051 -t 10; then
+  echo "video-search is not available"
+  exit 1
+fi
+
 echo "all services are available"

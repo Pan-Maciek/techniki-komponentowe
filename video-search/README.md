@@ -1,32 +1,73 @@
-#### Concept for audio in video search
-1. There will be a new service called video-search
-2. It will handle audio from video initially but might be extended to handle image from video
-3. To search for audio from video it will:
-    - Make a call to converter to extract .wav files from all handled video extensions
-    - Make a call to audio-search to search for audio in tmp directory created by converter
-    - Make a call to converter to cleanup after the audio extraction
-    - Remap file paths
-    - Send the result
-    
-Communication with other services would look like that:
-  
-![microservice-communication](./readme-files/video_search_arch.PNG)
+# pdf-search
 
-Thanks to that solution we don't have to duplicate audio-search logic
+Returns paths of video files containing a given phrase.
+For each file, additionally sends the whole speech transcript where the phrase was found,
+as well as indices of occurrences.
 
-#### Tools that can be used by converter
-Ffmpeg is already needed by pydub so it is already installed in the converted. That means we can use it directly
-(also because it doesn't seem like any good wrapper exists)
+Uses flask for http server and communicates with converter and audio-search
+Currently only searches for phrases in videos' audio
 
-```python
-import subprocess
+### Available at
 
-subprocess.call("ffmpeg -i /app/files/video.mp4 -ab 160k -ac 2 -ar 44100 -vn /app/files/audio_from_video/video.wav", shell=True)
+`http://localhost:9051`
+
+### Request format
+
+`http://localhost:9051/search?rootPath={path}&phrases={phrases}&langs={languages}`
+
+Example
+
+`http://localhost:9051/search?rootPath=/app/files&phrases=lis,fox&lang=pl,eng`
+
+### Example response (success)
+
+`http://localhost:9051/search?rootPath=/app/files&phrases=lis,fox&lang=pl,eng`
+
+```json
+{
+  "phrases": [
+    "lis",
+    "fox"
+  ],
+  "lang": [
+    "pl",
+    "eng"
+  ],
+  "status": "ok",
+  "results": [
+    {
+      "filePath": "/app/files/pl_text_eng_audio.mp4",
+      "matches": [
+        {
+          "searchContext": "the quick brown fox jumps over the lazy dog",
+          "indices": [
+            16
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": []
+}
 ```
 
-as suggested in this thread https://stackoverflow.com/questions/26741116/python-extract-wav-from-video-file
+### Example response (error)
 
-#### Other topics
+`http://localhost:9051/search?rootPath=/app/files&phrases=lis,fox&langs=en-US`
 
-As there should be not problem finding libs for rest and http requests for any programming languages, we can decide on 
-which language should the video-search service be written in even just before the implementation
+```json
+{
+  "phrases": [
+    "lis",
+    "fox"
+  ],
+  "languages": [
+    "en-US"
+  ],
+  "status": "error",
+  "results": [],
+  "errors": [
+    "Each phrase has to be associated with a language"
+  ]
+}
+```
