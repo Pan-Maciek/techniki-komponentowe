@@ -10,28 +10,32 @@ index of the line, as well as indices of occurrences in each line.
 
 ### Request format
 
-`http://localhost:9001/search?rootPath={path}&phrases={phrase1,phrase2}`
+`http://localhost:9001/search?rootPath={path}&phrases={phrase1,phrase2}&lang={lang1,lang2}`
 
 Example
 
-`http://localhost:9001/search?rootPath=/app/files&phrases=bond`
+`http://localhost:9001/search?rootPath=/app&phrases=words,is&lang=eng,pl`
 
 ### Example response (success)
 
 ```json
 {
-  "phrases": ["bond"],
+  "phrases": [ "words", "hord" ],
+  "lang": [ "eng", "pl" ],
   "status": "ok",
   "results": [
     {
       "filePath": "/app/files/sample.md",
       "matches": [
         {
-          "searchContext": "Will form a bond, impeccable art",
-          "indices": [
-            12
-          ],
-          "lineNumber": 6
+          "searchContext": "For what words cannot express",
+          "indices": [ 9 ],
+          "lineNumber": 3
+        },
+        {
+          "searchContext": "Hail to the hordes",
+          "indices": [ 12 ],
+          "lineNumber": 14
         }
       ]
     }
@@ -44,7 +48,8 @@ Example
 
 ```json
 {
-  "phrases": ["bond"],
+  "phrases": [ "words", "hord" ],
+  "lang": [ "eng", "pl" ],
   "status": "error",
   "results": [],
   "errors": [

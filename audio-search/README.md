@@ -16,31 +16,42 @@ Uses SpeechRecognition for speech recognition and flask for http server
 
 Example
 
-`http://localhost:9031/search?rootPath=/app/files&phrases=drzewo&langs=pl`
+`http://localhost:9031/search?rootPath=/app/files&phrases=jest,key&lang=pl,eng`
 
 ### Example response (success)
 
-`http://localhost:9031/search?rootPath=/app/files&phrases=who,kto&langs=en-US,pl-PL`
+`http://localhost:9031/search?rootPath=/app/files&phrases=jest,key&lang=pl,eng`
 
 ```json
 {
   "phrases": [
-    "who",
-    "kto"
+    "jest",
+    "key"
   ],
-  "languages": [
-    "en-US",
-    "pl-PL"
+  "lang": [
+    "pl",
+    "eng"
   ],
   "status": "ok",
   "results": [
     {
-      "path": "app/files/harvard.wav",
+      "filePath": "/app/files/kret_d042.wav",
       "matches": [
         {
-          "search_context": "the mute muffled the hi-tones of the who warned the gold ring fits only appeared ear the old pan was covered with hard fudge what's the log float in the wide river the node on the stalk of wheat grew daily the Heap of fallen leaves was set on fire right fast if you want to finish early his shirt was clean but one button was gone the barrel of beer was a brew of malt and hops tin cans are absent from store shelves",
+          "searchContext": "Sandy key",
           "indices": [
-            37
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "filePath": "/app/files/kret_d044.wav",
+      "matches": [
+        {
+          "searchContext": "No przecież jest zobacz na długości cienia i te kolory zachód Jak malowany",
+          "indices": [
+            12
           ]
         }
       ]

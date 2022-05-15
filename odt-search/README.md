@@ -10,7 +10,7 @@ as well as indices of occurrences in each paragraph.
 
 ### Request format
 
-`http://localhost:9011/search?rootPath={path}&phrase={phrase1,phrase2}&lang={lang1,lang2}`
+`http://localhost:9011/search?rootPath={path}&phrases={phrase1,phrase2}&lang={lang1,lang2}`
 
 Example
 
@@ -48,18 +48,18 @@ Example
       ]
     },
     {
-      "filePath": "/app/files/a/bells.odt",
+      "filePath": "/app/files/subfolder/bells.odt",
       "matches": [
-        {
-          "searchContext": "Brief were the moments of bliss and gladness",
-          "indices": [
-            0
-          ]
-        },
         {
           "searchContext": "Here the nightly frost will creep inside the hearts",
           "indices": [
             45
+          ]
+        },
+        {
+          "searchContext": "Brief were the moments of bliss and gladness",
+          "indices": [
+            0
           ]
         }
       ]
