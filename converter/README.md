@@ -14,7 +14,7 @@ Service for any needed conversions and extractions. It creates temporary directo
 
 ##### video
 
-- (TBD) mp4 -> wav
+- mp4 -> wav
 
 ### available requests
 
@@ -23,13 +23,26 @@ Service for any needed conversions and extractions. It creates temporary directo
 - `http://localhost:9041/audio_to_wav?rootPath={path}`
 
 Converts all files starting from rootPath and puts in a tmp directory created in rootPath directory.
- Then returns map `tmp_path -> original_path` of converted files
+ Then returns map `tmp_path -> original_path` of converted files and tmp directory path
 
 ##### cleanup_audio
 
 - `http://localhost:9041/cleanup_audio?rootPath={path}`
 
 Removes tmp directory created by audio_to_wav request
+
+##### convert_video
+
+- `http://localhost:9041/convert_video?rootPath={path}`
+
+Converts all video (limited to supported formats) files starting from rootPath and puts in a tmp directory created in rootPath directory.
+ Then returns map `tmp_path -> original_path` of converted files and tmp directory path
+
+##### cleanup_video
+
+- `http://localhost:9041/cleanup_video?rootPath={path}`
+
+Removes tmp directory created by convert_video request
 
 ### Examples
 

@@ -1,4 +1,4 @@
-# pdf-search
+# video-search
 
 Returns paths of video files containing a given phrase.
 For each file, additionally sends the whole speech transcript where the phrase was found,
