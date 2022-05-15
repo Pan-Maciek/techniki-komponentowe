@@ -43,6 +43,18 @@ services:
     volumes:
       - "${search_directory:-./samples}:/app/files:ro"
     networks:
+      - test-net
+      - internal
+  converter:
+    build:
+      context: converter
+      dockerfile: Dockerfile
+    ports:
+      - "9041:8185"
+    volumes:
+      - "${search_directory:-./samples}:/app/files"
+    networks:
+      - test-net
       - internal
   backend:
     build:
