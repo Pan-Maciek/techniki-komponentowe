@@ -34,6 +34,7 @@ const serviceLabelMap: Record<keyof SearchResponse, string> = {
   "odt-search": "ODT",
   "pdf-search": "PDF",
   "audio-search": "Audio files",
+  "video-search": "Video files",
 };
 
 const languageLabelMap: Record<typeof LANGUAGES[number], string> = {

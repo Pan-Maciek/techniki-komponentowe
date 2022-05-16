@@ -60,6 +60,16 @@ Finds all .wav files containing the phrase in a given directory.
 
 Technologies: Python, flask
 
+### [video-search](./video-search/README.md)
+Finds all .mp4 files containing the phrase in audio in a given directory.
+
+Technologies: Python, flask
+
+### [converter](./converter/README.md)
+Converts files
+
+Technologies: Python, flask, ffmpeg
+
 ### [translation](./translation/README.md)
 Translates phrase into specified languages.
 

@@ -56,6 +56,17 @@ services:
     networks:
       - test-net
       - internal
+  video-search:
+    build:
+      context: video-search
+      dockerfile: Dockerfile
+    ports:
+      - "9051:8186"
+    volumes:
+      - "${search_directory:-./samples}:/app/files:ro"
+    networks:
+      - test-net
+      - internal
   backend:
     build:
       context: backend

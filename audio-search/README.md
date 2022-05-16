@@ -1,4 +1,4 @@
-# pdf-search
+# audio-search
 
 Returns paths of .wav files containing a given phrase.
 For each file, additionally sends the whole speech transcript where the phrase was found,
@@ -13,6 +13,8 @@ Uses SpeechRecognition for speech recognition and flask for http server
 ### Request format
 
 `http://localhost:9031/search?rootPath={path}&phrases={phrases}&langs={languages}`
+
+(Used by video-search) `http://localhost:9031/no_conversion_search?rootPath={path}&phrases={phrases}&langs={languages}`
 
 Example
 
