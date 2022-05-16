@@ -1,0 +1,94 @@
+{
+	"info": {
+		"_postman_id": "b93183db-3f87-4fc6-933d-d8319eecfde4",
+		"name": "audio-service-test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "audio-search",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"expectedBody = {",
+							"    \"phrases\": [",
+							"        \"jest\",",
+							"        \"key\"",
+							"    ],",
+							"    \"lang\": [",
+							"        \"pl\",",
+							"        \"eng\"",
+							"    ],",
+							"    \"status\": \"ok\",",
+							"    \"results\": [",
+							"        {",
+							"            \"filePath\": \"/app/files/kret_d042.wav\",",
+							"            \"matches\": [",
+							"                {",
+							"                    \"searchContext\": \"Randy Hickey\",",
+							"                    \"indices\": [",
+							"                        9",
+							"                    ]",
+							"                }",
+							"            ]",
+							"        },",
+							"        {",
+							"            \"filePath\": \"/app/files/kret_d044.wav\",",
+							"            \"matches\": [",
+							"                {",
+							"                    \"searchContext\": \"No przecież jest zobacz na długości cienia i te kolory zachód Jak malowany\",",
+							"                    \"indices\": [",
+							"                        12",
+							"                    ]",
+							"                }",
+							"            ]",
+							"        }",
+							"    ],",
+							"    \"errors\": []",
+							"}",
+							"",
+							"pm.test('Success', function() {",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.body === expectedBody;  ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://audio-search:8184/search?rootPath=/app/files&phrases=jest,key&lang=pl,eng",
+					"protocol": "http",
+					"host": [
+						"audio-search"
+					],
+					"port": "8184",
+					"path": [
+						"search"
+					],
+					"query": [
+						{
+							"key": "rootPath",
+							"value": "/app/files"
+						},
+						{
+							"key": "phrases",
+							"value": "jest,key"
+						},
+						{
+							"key": "lang",
+							"value": "pl,eng"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

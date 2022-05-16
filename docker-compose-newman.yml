@@ -10,6 +10,7 @@ services:
       - pdf-search
       - text-search
       - translation
+      - audio-search
     volumes:
       - ./tests:/app:rw
     networks:
