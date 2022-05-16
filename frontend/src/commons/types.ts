@@ -41,6 +41,7 @@ export type SearchResponse = {
   "odt-search": ServiceResponse<RichTextMatch>;
   "pdf-search": ServiceResponse<RichTextMatch>;
   "audio-search": ServiceResponse<AudioMatch>;
+  "video-search": ServiceResponse<AudioMatch>;
 };
 
 export const SERVICES: Array<keyof SearchResponse> = [
@@ -48,6 +49,7 @@ export const SERVICES: Array<keyof SearchResponse> = [
   "odt-search",
   "pdf-search",
   "audio-search",
+  "video-search",
 ];
 
 export const LANGUAGES = ["en", "de"] as const;
