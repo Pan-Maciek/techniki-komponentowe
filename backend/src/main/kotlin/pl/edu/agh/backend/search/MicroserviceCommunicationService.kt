@@ -29,9 +29,13 @@ class MicroserviceCommunicationService(
 
         val phrases = translationService.translate(phrase, languages)?.joinToString(",")
 
-        val forms = formsService.createForm(phrase, forms)?.joinToString(",")
+        val wordsForms = formsService.createForm(phrase, forms)?.joinToString(",")
 
-        val allPhrases = phrases.zip(forms){phrases, forms -> phrases + forms}
+        val allPhrases = if (wordsForms.isNullOrBlank()) {
+            phrases
+        } else {
+            "$phrases,$wordsForms"
+        }
 
         val activeServices = serviceMap.filterServices(enabledFormats)
 

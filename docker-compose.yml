@@ -78,6 +78,17 @@ services:
     networks:
       - test-net
       - internal
+  words-forms:
+    build:
+      context: words-forms
+      dockerfile: Dockerfile
+    ports:
+      - "9061:8187"
+    volumes:
+      - "${search_directory:-./samples}:/app/files:ro"
+    networks:
+      - test-net
+      - internal
   backend:
     build:
       context: backend

@@ -75,3 +75,8 @@ Translates phrase into specified languages.
 
 Technologies: Node, express
 
+### [words-forms](./words-forms/README.md)
+Generate forms (different forms, synonyms, typos) for given phrase.
+
+Technologies: Python, flask
+
