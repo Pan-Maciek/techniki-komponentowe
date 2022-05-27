@@ -2,7 +2,7 @@ import os
 
 from typing import List, Dict
 from .audio_searcher import AudioSearcher
-from src.result import FileSearchResult
+from ..result import FileSearchResult
 import requests
 
 
@@ -17,6 +17,9 @@ class FileSearcher:
         self.path = path
 
     def find_phrases(self, phrases: List[str], languages: List[str], with_conversion: bool) -> List[FileSearchResult]:
+        new_list = ["pl"] * (len(phrases) - len(languages))
+        for new in new_list:
+            languages.append(new)
         if len(phrases) != len(languages):
             raise Exception("Each phrase has to be associated with a language")
         self.errors = []
