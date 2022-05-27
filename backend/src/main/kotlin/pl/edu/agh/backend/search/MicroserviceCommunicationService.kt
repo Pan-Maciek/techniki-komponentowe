@@ -14,12 +14,13 @@ import java.util.stream.Collectors
 class MicroserviceCommunicationService(
         @Autowired val webClient: WebClient,
         @Autowired val translationService: TranslationService,
-        @Autowired val logger: Logger
+        @Autowired val logger: Logger,
+        @Autowired val formsService: FormsService
 ) {
     val serviceMap = ServiceMap()
 
-    fun getResponse(phrase: String, rootPath: String, enabledFormats: List<String>, languages: List<String>): Map<String, Any> {
-        logger.info("Searching for $phrase in $rootPath. Enabled formats: $enabledFormats; languages: $languages")
+    fun getResponse(phrase: String, rootPath: String, enabledFormats: List<String>, languages: List<String>, forms: List<String>): Map<String, Any> {
+        logger.info("Searching for $phrase in $rootPath. Enabled formats: $enabledFormats; languages: $languages; forms: $forms")
 
         if(!fileExists(rootPath)){
             logger.info("Requested path $rootPath does not exist")
@@ -28,12 +29,16 @@ class MicroserviceCommunicationService(
 
         val phrases = translationService.translate(phrase, languages)?.joinToString(",")
 
+        val forms = formsService.createForm(phrase, forms)?.joinToString(",")
+
+        val allPhrases = phrases.zip(forms){phrases, forms -> phrases + forms}
+
         val activeServices = serviceMap.filterServices(enabledFormats)
 
         val monos = activeServices.map {
             val url = UriComponentsBuilder.fromHttpUrl("http://${it.key}:${it.value}/search")
                     .queryParam("lang", (listOf("pl") + languages).joinToString(","))
-                    .queryParam("phrases", phrases)
+                    .queryParam("phrases", allPhrases)
                     .queryParam("rootPath", rootPath)
                     .encode()
                     .toUriString()
