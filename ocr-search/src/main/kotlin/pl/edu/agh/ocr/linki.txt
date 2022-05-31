@@ -1,0 +1,5 @@
+http://localhost:8080/search?rootPath=~\\T\\Documents\\STUDIA\\8semestr\\techniki-komponentowe&phrases=bells&lang=pl,ang
+http://localhost:8080/search?rootPath=~/Wojtek/Documents/STUDIA/8semestr/techniki-komponentowe&phrases=bells&lang=pl,ang
+
+http://localhost:8080/search?rootPath=C:/Users/Wojtek/Documents/STUDIA/8semestr/techniki-komponentowe&phrases=bells&lang=pl,ang
+http://localhost:8080/search?rootPath=C:/Users/Wojtek/Downloads/test&phrases=bells&lang=pl,ang
