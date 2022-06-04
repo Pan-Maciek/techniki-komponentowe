@@ -8,15 +8,22 @@ import {
   TextSnippet as TextSnippetIcon,
   PictureAsPdf as PictureAsPdfIcon,
   Audiotrack as AudiotrackIcon,
-  VideoLibrary as VideoLibraryIcon,
+  MusicVideo as MusicVideoIcon,
+  OndemandVideo as OndemandVideoIcon,
+  Image as ImageIcon,
+  FolderZip as FolderZipIcon,
 } from "@mui/icons-material";
 
 const serviceIconMap: Record<keyof SearchResponse, JSX.Element> = {
   "text-search": <TextSnippetIcon />,
   "odt-search": <TextFormatIcon />,
   "pdf-search": <PictureAsPdfIcon />,
+  "microsoft-search": <TextFormatIcon />,
   "audio-search": <AudiotrackIcon />,
-  "video-search": <VideoLibraryIcon />,
+  "video-search": <MusicVideoIcon />,
+  "video-search-ocr": <OndemandVideoIcon />,
+  "ocr-search": <ImageIcon />,
+  "archive-search": <FolderZipIcon />,
 };
 
 export const SearchResult: React.VFC<{

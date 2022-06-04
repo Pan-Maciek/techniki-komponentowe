@@ -23,6 +23,7 @@ import {
   SearchResponse,
   SERVICES,
   LANGUAGES,
+  FORMS,
 } from "../../commons/types";
 
 type SearchFormProps = {
@@ -33,13 +34,23 @@ const serviceLabelMap: Record<keyof SearchResponse, string> = {
   "text-search": "Plain text",
   "odt-search": "ODT",
   "pdf-search": "PDF",
+  "microsoft-search": "Microsoft (DOCX, PPTX, XLS)",
   "audio-search": "Audio files",
-  "video-search": "Video files",
+  "video-search": "Video files (audio)",
+  "video-search-ocr": "Video files (image)",
+  "ocr-search": "Image files",
+  "archive-search": "Archive files",
 };
 
 const languageLabelMap: Record<typeof LANGUAGES[number], string> = {
   en: "English",
   de: "German",
+};
+
+const formLabelMap: Record<typeof FORMS[number], string> = {
+  synonyms: "Synonyms",
+  forms: "Forms",
+  typos: "Typos",
 };
 
 export const SearchForm: React.VFC<SearchFormProps> = ({ onSubmit }) => {
@@ -152,6 +163,21 @@ export const SearchForm: React.VFC<SearchFormProps> = ({ onSubmit }) => {
                     label={languageLabelMap[language]}
                     value={language}
                     {...register(`additionalInfo.lang.${i}`)}
+                  />
+                ))}
+              </FormGroup>
+            </Grid>
+            <Grid item xs={12}>
+              <h4 className={styles.formHeader}>Search modes</h4>
+              <Divider />
+              <FormGroup row>
+                {FORMS.map((form, i) => (
+                  <FormControlLabel
+                    key={form}
+                    control={<Checkbox defaultChecked />}
+                    label={formLabelMap[form]}
+                    value={form}
+                    {...register(`additionalInfo.forms.${i}`)}
                   />
                 ))}
               </FormGroup>

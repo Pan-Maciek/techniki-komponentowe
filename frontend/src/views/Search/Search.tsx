@@ -31,12 +31,16 @@ export const Search = () => {
     data.additionalInfo.lang = data.additionalInfo.lang.filter(
       (format: string) => !!format
     );
+    data.additionalInfo.forms = data.additionalInfo.forms.filter(
+      (format: string) => !!format
+    );
 
     setSearchState({ status: "LOADING" });
     try {
       const enabledFormats = data.additionalInfo.enabledFormats;
 
       enabledFormats.forEach((format) => {
+        console.log("FORMAT: ", format);
         data.additionalInfo.enabledFormats = [format];
         search(data).then((results) => {
           setSearchState((state) => {
