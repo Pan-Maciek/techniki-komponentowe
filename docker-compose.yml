@@ -62,17 +62,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "9051:8186"
-#    volumes:
-#      - "${search_directory:-./samples}:/app/files:ro"
-#    networks:
-#      - test-net
-#      - internal
-#  ocr-search:
-#    build:
-#      context: ocr-search
-#      dockerfile: Dockerfile
-#    ports:
-#      - "9061:8187"
     volumes:
       - "${search_directory:-./samples}:/app/files:ro"
     networks:
@@ -84,6 +73,17 @@ services:
       dockerfile: Dockerfile
     ports:
       - "9061:8187"
+    volumes:
+      - "${search_directory:-./samples}:/app/files:ro"
+    networks:
+      - test-net
+      - internal
+  ocr-search:
+    build:
+      context: ocr-search
+      dockerfile: Dockerfile
+    ports:
+      - "9081:8189"
     volumes:
       - "${search_directory:-./samples}:/app/files:ro"
     networks:

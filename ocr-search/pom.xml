@@ -9,16 +9,16 @@
   </parent>
 
   <artifactId>ocr</artifactId>
-  <version>1.0.0</version>
+  <version>1.0</version>
   <name>ocr</name>
   <description>ocr</description>
 
   <properties>
-    <java.version>17</java.version>
+    <java.version>11</java.version>
     <kotlin.version>1.6.21</kotlin.version>
     <spring.boot.version>2.6.7</spring.boot.version>
-    <maven.compiler.target>17</maven.compiler.target>
-    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>11</maven.compiler.source>
     <main.class>pl.edu.agh.ocr.OcrApplicationKt</main.class>
   </properties>
 
@@ -86,6 +86,12 @@
       <version>${kotlin.version}</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.12.0</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -95,6 +101,7 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>${spring.boot.version}</version>
       </plugin>
       <plugin>
         <groupId>org.jetbrains.kotlin</groupId>
@@ -123,7 +130,7 @@
           <compilerPlugins>
             <plugin>spring</plugin>
           </compilerPlugins>
-          <jvmTarget>17</jvmTarget>
+          <jvmTarget>${java.version}</jvmTarget>
         </configuration>
         <dependencies>
           <dependency>
@@ -133,28 +140,28 @@
           </dependency>
         </dependencies>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-            <configuration>
-              <archive>
-                <manifest>
-                  <mainClass>${main.class}</mainClass>
-                </manifest>
-              </archive>
-              <descriptorRefs>
-                <descriptorRef>jar-with-dependencies</descriptorRef>
-              </descriptorRefs>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
+<!--      <plugin>-->
+<!--        <groupId>org.apache.maven.plugins</groupId>-->
+<!--        <artifactId>maven-assembly-plugin</artifactId>-->
+<!--        <executions>-->
+<!--          <execution>-->
+<!--            <phase>package</phase>-->
+<!--            <goals>-->
+<!--              <goal>single</goal>-->
+<!--            </goals>-->
+<!--            <configuration>-->
+<!--              <archive>-->
+<!--                <manifest>-->
+<!--                  <mainClass>${main.class}</mainClass>-->
+<!--                </manifest>-->
+<!--              </archive>-->
+<!--              <descriptorRefs>-->
+<!--                <descriptorRef>jar-with-dependencies</descriptorRef>-->
+<!--              </descriptorRefs>-->
+<!--            </configuration>-->
+<!--          </execution>-->
+<!--        </executions>-->
+<!--      </plugin>-->
     </plugins>
   </build>
 

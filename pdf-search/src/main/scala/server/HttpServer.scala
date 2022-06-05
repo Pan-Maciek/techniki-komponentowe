@@ -7,6 +7,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.directives.DebuggingDirectives
 import logic.FileSearcher
+import org.slf4j.{Logger, LoggerFactory}
 import result.Result.{FileSearchResult, Matches, RequestResult}
 import spray.json.{DefaultJsonProtocol, RootJsonFormat}
 
@@ -27,6 +28,8 @@ class HttpServer extends SprayJsonSupport with DefaultJsonProtocol {
 
   implicit val system = ActorSystem()
 
+  val logger: Logger = LoggerFactory.getLogger(this.getClass)
+
   def routes: Route = {
     path("search") {
       get {
@@ -36,9 +39,11 @@ class HttpServer extends SprayJsonSupport with DefaultJsonProtocol {
             try {
               val fileSearcher = new FileSearcher(rootPath)
               val res = fileSearcher.findInDir(phrases)
+              logger.info(s"results = $res, returning with success")
               complete(200, RequestResult(phrases, lang, "ok", res, fileSearcher.errors))
             } catch {
               case e: Throwable =>
+                logger.error(e.getMessage)
                 complete(200, RequestResult(phrases, lang, "error", Seq(), Seq(e.getMessage)))
             }
 

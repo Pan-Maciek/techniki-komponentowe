@@ -8,7 +8,7 @@ class ServiceMap {
                 "pdf-search" to "8183",
                 "audio-search" to "8184",
                 "video-search" to "8186",
-                "ocr-search" to "8187"
+                "ocr-search" to "8189"
         )
 
         fun filterServices(enabledFormats: List<String>) : Map<String, String> = servicesNames.filter { it.key in enabledFormats }

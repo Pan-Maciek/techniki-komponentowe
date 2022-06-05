@@ -2,21 +2,20 @@ package pl.edu.agh.ocr.logic
 
 import net.sourceforge.tess4j.Tesseract
 import net.sourceforge.tess4j.TesseractException
-import org.slf4j.LoggerFactory
+import org.slf4j.Logger
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import pl.edu.agh.ocr.utils.Utils.LANGUAGES
-import pl.edu.agh.ocr.utils.Utils.TESS_DATA
 import pl.edu.agh.ocr.data.OcrResult
 import java.io.File
 import kotlin.io.path.Path
 import kotlin.io.path.absolutePathString
 
 @Component
-class OcrWorker(tessData: String = TESS_DATA) {
+class OcrWorker(@Autowired private val logger: Logger, @Autowired tessData: String) {
+
+    private val languages: List<String> = listOf("eng", "pol")
 
     private val tesseract = Tesseract()
-
-    private val logger = LoggerFactory.getLogger(javaClass)
 
     init {
         tesseract.setDatapath(Path(tessData).absolutePathString())
@@ -34,7 +33,7 @@ class OcrWorker(tessData: String = TESS_DATA) {
         val exceptions = mutableListOf<String>()
         val ocrResults = mutableListOf<OcrResult>()
 
-        for (lang in LANGUAGES) {
+        for (lang in languages) {
             try {
                 result = getExtractionResult(lang, result, file)
             } catch (e: Exception) {

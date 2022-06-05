@@ -1,5 +1,7 @@
 package pl.edu.agh.ocr.controller
 
+import org.slf4j.Logger
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -9,7 +11,7 @@ import pl.edu.agh.ocr.logic.OcrService
 import java.io.IOException
 
 @RestController
-class OcrController(private val ocrService: OcrService) {
+class OcrController(@Autowired private val ocrService: OcrService, @Autowired private val logger: Logger) {
 
     @CrossOrigin
     @GetMapping("/search")
@@ -18,6 +20,7 @@ class OcrController(private val ocrService: OcrService) {
         @RequestParam rootPath: String,
         @RequestParam lang: List<String>
     ): OcrResponse {
+        logger.info("Received: phrases=$phrases, rootPath=$rootPath, lang=$lang")
         return try {
             ocrService.getOcrResults(rootPath, phrases, lang)
         } catch (e: IOException) {
